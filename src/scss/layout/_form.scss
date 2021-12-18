@@ -1,0 +1,8 @@
+@use '../abstracts' as a;
+
+form,
+.form {
+	@include a.flex-container();
+
+	padding: 1rem;
+}

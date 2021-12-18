@@ -1,0 +1,6 @@
+@use '../abstracts' as a;
+
+body {
+	background-color: a.$gray5;
+	color: a.$gray1;
+}

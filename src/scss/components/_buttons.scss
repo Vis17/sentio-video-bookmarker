@@ -1,0 +1,40 @@
+@use '../abstracts' as a;
+
+button,
+.button {
+	position: relative;
+	font-family: inherit;
+	text-align: center;
+	padding: 1rem 2rem;
+	color: var(--text-color);
+	border-radius: 0.5rem;
+	border: 0.2rem solid a.$copper-rose;
+	background-color: transparent;
+	cursor: pointer;
+	font-size: 1.6rem;
+	text-transform: uppercase;
+	letter-spacing: 0.1rem;
+	margin: 1rem;
+	transition: all 0.2s;
+	box-shadow: none;
+
+	&:hover {
+		outline: none;
+		background-color: a.$gray3;
+		box-shadow: none;
+	}
+	&:active {
+		background-color: a.$gray3;
+		outline: none;
+		box-shadow: none;
+
+		padding: 0.7rem 2rem;
+		margin: 1.3rem 1rem;
+	}
+	&.warning {
+		border-color: a.$red;
+	}
+	&.success {
+		border-color: a.$green;
+	}
+}

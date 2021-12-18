@@ -1,0 +1,42 @@
+{
+	"name": "sentio-video-bookmarker",
+	"version": "0.1.0",
+	"description": "",
+	"private": true,
+	"scripts": {
+		"build:dev:watch": "webpack --watch --config webpack.dev.js",
+		"build:dev": "webpack --config webpack.dev.js",
+		"build:prod": "webpack --config webpack.prod.js",
+		"test:watch": "jest --watchAll --config .jestrc.json",
+		"test": "jest --config .jestrc.json",
+		"lint": "eslint ./src",
+		"start:firefoxdeveloperedition": "web-ext run --source-dir ./dist --firefox=firefoxdeveloperedition --browser-console --start-url localhost:5500/test-page"
+	},
+	"author": "Vis17",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/firefox-webext-browser": "^94.0.0",
+		"@types/jest": "^27.0.3",
+		"@typescript-eslint/eslint-plugin": "^5.7.0",
+		"@typescript-eslint/parser": "^5.7.0",
+		"copy-webpack-plugin": "^9.1.0",
+		"css-loader": "^6.5.1",
+		"eslint": "^7.32.0",
+		"html-webpack-plugin": "^5.5.0",
+		"jest": "^27.4.4",
+		"prettier": "^2.5.1",
+		"sass": "^1.43.4",
+		"sass-loader": "^12.3.0",
+		"style-loader": "^3.3.1",
+		"svelte": "^3.44.1",
+		"svelte-loader": "^3.1.2",
+		"svelte-preprocess": "^4.9.8",
+		"ts-jest": "^27.1.1",
+		"ts-loader": "^9.2.6",
+		"typescript": "^4.5.2",
+		"web-ext": "^6.5.0",
+		"webpack": "^5.64.1",
+		"webpack-cli": "^4.9.1",
+		"webpack-merge": "^5.8.0"
+	}
+}

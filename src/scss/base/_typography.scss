@@ -1,0 +1,39 @@
+html {
+	font-size: 10px;
+	font-family: Rubik, Impact, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 100;
+	letter-spacing: 0.1rem;
+}
+h1 {
+	font-size: 2.7rem;
+}
+h2 {
+	font-size: 2rem;
+}
+
+p,
+label,
+span {
+	font-size: 1.5rem;
+}
+small {
+	font-size: 1.1rem;
+	line-height: 0.7;
+}
+
+.text-overflow {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: '...';
+}
+.no-select {
+	user-select: none;
+}

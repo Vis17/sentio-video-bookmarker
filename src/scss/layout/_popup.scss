@@ -1,0 +1,14 @@
+@use '../abstracts' as a;
+
+.popup {
+	padding: 0;
+
+	width: clamp(40rem, 50rem, 100vw);
+
+	header {
+		background-color: a.$gray6;
+	}
+	main {
+		padding: 1.5rem;
+	}
+}
