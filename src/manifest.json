@@ -3,10 +3,11 @@
 	"name": "Sentio - Video bookmarker",
 	"version": "0.1.0",
 
-	"description": "",
+	"description": "Sentio is a Firefox-Addon that lets you create Video-Bookmarks 📺. Bookmark a video and Sentio will save 💾, to which point 🕔 you have watched the video. This means, you can start watching your video where you stopped last time ▶.",
 
 	"icons": {
-		"48": "icons/icon.svg"
+		"48": "icons/icon.svg",
+		"96": "icons/icon.svg"
 	},
 
 	"background": {
