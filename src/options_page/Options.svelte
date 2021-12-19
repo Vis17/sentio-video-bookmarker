@@ -1,7 +1,7 @@
 <script lang="ts">
 	//#region imports
 	import FormItem from '../components/FormItem.svelte';
-	import optionConfigs, {
+	import {
 		arrayOfOptionConfigs,
 		defaultOptions,
 		OptionId,

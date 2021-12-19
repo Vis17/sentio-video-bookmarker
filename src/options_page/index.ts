@@ -1,3 +1,4 @@
+import 'svelte'; // avoid compiling errors
 import '../scss/index.scss';
 import Options from './Options.svelte';
 
