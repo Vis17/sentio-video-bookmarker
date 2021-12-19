@@ -24,9 +24,12 @@
 		});
 	}
 
-	function reload(): void {
-		// TODO add reload for content-script (and so following page-action)
+	async function reload(): Promise<void> {
+		// reload bookmarks from sentio
 		videoBookmarks = [...(sentio?.videoBookmarks.query({}) ?? [])];
+
+		// reload the videos on the page
+		await sentio?.activePage.reloadVideos();
 	}
 </script>
 

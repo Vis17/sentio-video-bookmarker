@@ -4,14 +4,10 @@ import { BackgroundEventName } from '../types';
 
 export default class PageManager {
 	constructor() {
-		this.init();
-	}
-
-	init() {
 		this.processVideos();
 	}
 
-	private async processVideos(videos?: HTMLVideoElement[]): Promise<void> {
+	async processVideos(videos?: HTMLVideoElement[]): Promise<void> {
 		if (!videos) return this.processVideos(this.getVideoElements());
 
 		videos.forEach(video => {

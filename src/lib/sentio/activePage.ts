@@ -1,3 +1,4 @@
+import { PageEventName } from '../../types';
 import VideoBookmark, { VideoData } from './videoBookmark';
 import type VideoBookmarkManager from './videoBookmarkManager';
 
@@ -61,5 +62,19 @@ export default class ActivePage {
 		);
 
 		return videoBookmarks;
+	}
+
+	/**
+	 * Reloads the vieos on the page through a message to the content-script
+	 */
+	async reloadVideos() {
+		await this.sendMessage('page-reload-videos');
+	}
+
+	private sendMessage<T>(
+		event: PageEventName,
+		...args: unknown[]
+	): Promise<T> {
+		return browser.tabs.sendMessage(this.tabId, [event, ...args]);
 	}
 }
