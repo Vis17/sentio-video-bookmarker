@@ -1,8 +1,8 @@
 import 'svelte'; // avoid compiling errors
 import '../scss/index.scss';
-import Options from './Options.svelte';
+import App from './App.svelte';
 
-const options = new Options({
+const options = new App({
 	target: document.body,
 });
 

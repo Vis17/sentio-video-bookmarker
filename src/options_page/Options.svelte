@@ -37,7 +37,7 @@
 	}
 </script>
 
-<div class="wrapper">
+<div>
 	<form on:submit|preventDefault={onSubmit} on:reset|preventDefault={onReset}>
 		<h1>Options</h1>
 
@@ -57,17 +57,3 @@
 		</div>
 	</form>
 </div>
-
-<style lang="scss">
-	@use '../scss/abstracts' as a;
-
-	.wrapper {
-		background-color: a.$gray6;
-		width: clamp(80rem, 100rem, 90%);
-		margin: 2rem auto;
-		padding: 1rem;
-		border-radius: 0.5rem;
-
-		overflow: auto;
-	}
-</style>
