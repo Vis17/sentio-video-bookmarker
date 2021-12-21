@@ -7,7 +7,7 @@
 	width="1024px">
 	<style>
 		.s {
-			stroke: #a07178;
+			stroke: #E5F9E0;
 			stroke-width: 32px;
 			stroke-linecap: round;
 			stroke-linejoin: round;
@@ -19,8 +19,8 @@
 		}
 
 		.c {
-			stroke: #2e1f27;
-			fill: #2e1f27;
+			stroke: #a07178;
+			fill: #a07178;
 		}
 	</style>
 	<path
