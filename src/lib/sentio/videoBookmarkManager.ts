@@ -7,8 +7,27 @@ export default class VideoBookmarkManager {
 		this._data = new Map();
 	}
 
+	/**
+	 * Create a new VideoBookmark.
+	 *
+	 * ***The VideoBookmarks are unique by their src-attribute!***
+	 * @param videoData The video data, the VideoBookmark is created on.
+	 */
 	create(videoData: VideoData) {
 		if (videoData) this.set(new VideoBookmark(videoData));
+	}
+	/**
+	 * Delete a VideoBookmark by its src-attribute.
+	 * @param src The src-attribute of the VideoBookmark to delete.
+	 */
+	delete(src: string) {
+		this._data.delete?.(src);
+	}
+	/**
+	 * Deletes all VideoBookmarks.
+	 */
+	deleteAll() {
+		this._data.clear();
 	}
 	update(videoBookmark: VideoBookmark) {
 		this.set(videoBookmark);
