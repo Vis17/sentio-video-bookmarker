@@ -45,6 +45,14 @@ const optionConfigs = asElementTypes({
 			'This will show the src-attribute of the videos in the menus.',
 		default: false,
 	},
+
+	'edit-allow-read-only-properties': {
+		type: 'checkbox',
+		title: 'Allow editing read-only video bookmark properties',
+		description:
+			'This will allow to edit read-only properties from a video bookmark like the length of the video or the source.',
+		default: false,
+	},
 });
 
 export default optionConfigs;

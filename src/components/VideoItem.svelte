@@ -26,7 +26,10 @@
 	});
 
 	function onClick() {
-		dispatch('click', video?.videoBookmark ?? video?.videoData ?? null);
+		dispatch(
+			'click',
+			video?.videoBookmark?.export() ?? video?.videoData ?? null
+		);
 		if (!defaultClickAction) return;
 
 		if (video?.videoBookmark)
@@ -119,6 +122,10 @@
 		}
 		&:active {
 			padding-left: 0.7rem;
+		}
+
+		.c-data {
+			width: 100%;
 		}
 
 		.c-infos {

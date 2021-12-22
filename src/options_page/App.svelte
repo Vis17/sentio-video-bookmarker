@@ -51,13 +51,13 @@
 
 	<main>
 		{#if visibleTab === Tab['options']}
-			<div in:fade={{ duration: 300 }}>
+			<div class="full-height" in:fade={{ duration: 300 }}>
 				<Options />
 			</div>
 		{/if}
 
 		{#if visibleTab === Tab['manage']}
-			<div in:fade={{ duration: 300 }}>
+			<div class="full-height" in:fade={{ duration: 300 }}>
 				<Manage />
 			</div>
 		{/if}
@@ -86,7 +86,7 @@
 
 		background-color: a.$gray6;
 
-		border-right: 0.3rem solid a.$copper-rose;
+		border-right: 0.3rem solid a.$black-coffee;
 		box-shadow: 0.4rem 0 1rem #000;
 		margin-right: 2rem;
 
@@ -119,5 +119,9 @@
 		padding: 1rem;
 
 		overflow: auto;
+
+		.full-height {
+			height: 100%;
+		}
 	}
 </style>

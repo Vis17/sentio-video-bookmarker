@@ -9,7 +9,12 @@ export default class VideoBookmark {
 	private _data: VideoData;
 
 	constructor(data: VideoData) {
-		this._data = data;
+		this._data = { ...data };
+
+		// fix not allowed floats while editing
+		// should be precise enough ;)
+		this._data.duration = Math.round(this._data.duration);
+		this._data.timestamp = Math.round(this._data.timestamp);
 	}
 
 	get title() {

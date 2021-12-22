@@ -29,8 +29,15 @@ export default class VideoBookmarkManager {
 	deleteAll() {
 		this._data.clear();
 	}
-	update(videoBookmark: VideoBookmark) {
+	/**
+	 * Updates a given VideoBookmark
+	 * @param videoBookmark
+	 * @returns Whether or not the VideoBookmark was present && updated.
+	 */
+	update(videoBookmark: VideoBookmark): boolean {
+		if (!this._data.has(videoBookmark.src)) return false;
 		this.set(videoBookmark);
+		return true;
 	}
 	private set(videoBookmark: VideoBookmark) {
 		this._data.set(videoBookmark.src, videoBookmark);
