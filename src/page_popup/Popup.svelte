@@ -26,3 +26,7 @@
 		</div>
 	</main>
 </div>
+
+<style lang="scss">
+	@use '../scss/layout/popup';
+</style>

@@ -67,6 +67,7 @@
 
 <style lang="scss">
 	@use '../scss/abstracts' as a;
+	@use '../scss/layout/popup';
 
 	.top-bar {
 		@include a.flex-container(row, nowrap, space-around);

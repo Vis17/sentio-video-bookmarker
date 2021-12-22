@@ -1,9 +1,17 @@
 @use '../abstracts' as a;
 
+:global(body) {
+	width: 70rem;
+	overflow: hidden;
+}
+
 .popup {
 	padding: 0;
 
-	width: clamp(40rem, 50rem, 100vw);
+	width: 100%;
+	// not the nicest thing, but works (more or less)...
+	// problems with auto, if y-overflow
+	overflow-y: scroll;
 
 	header {
 		background-color: a.$gray6;
