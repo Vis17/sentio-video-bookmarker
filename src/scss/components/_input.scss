@@ -29,7 +29,8 @@ input {
 		padding: 0.5rem;
 	}
 
-	&[type='number'] {
+	&[type='number'],
+	&[type='checkbox'] {
 		width: auto;
 	}
 
