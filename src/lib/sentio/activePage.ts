@@ -21,9 +21,11 @@ export default class ActivePage {
 		return this._url;
 	}
 	/** Sets the tab-id and url for the activePage */
-	setActiveTab(id: number, url: string) {
+	setActiveTab(id: number, url?: string) {
 		this._tabId = id;
-		this._url = url;
+		this._url = url ?? '';
+
+		this.reloadVideos();
 	}
 
 	/** Videos on activePage */
@@ -68,7 +70,11 @@ export default class ActivePage {
 	 * Reloads the vieos on the page through a message to the content-script
 	 */
 	async reloadVideos() {
-		await this.sendMessage('page-reload-videos');
+		try {
+			await this.sendMessage('page-reload-videos');
+		} catch (err) {
+			//
+		}
 	}
 
 	private sendMessage<T>(

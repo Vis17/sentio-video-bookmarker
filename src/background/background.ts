@@ -21,6 +21,18 @@ browser.runtime.onMessage.addListener(
 );
 
 // tab-update
+browser.tabs.onActivated.addListener(async info => {
+	const activeTab = (
+		await browser.tabs.query({
+			active: true,
+			currentWindow: true,
+		})
+	)?.[0];
+
+	if (activeTab.id !== info.tabId) return;
+
+	sendTabInfo(info.tabId, activeTab.url);
+});
 browser.tabs.onUpdated.addListener(async (tabId, change) => {
 	const activeTabId = (
 		await browser.tabs.query({
@@ -31,5 +43,9 @@ browser.tabs.onUpdated.addListener(async (tabId, change) => {
 
 	if (activeTabId !== tabId || !change.url) return;
 
-	window.sentio?.activePage.setActiveTab(activeTabId, change.url);
+	sendTabInfo(activeTabId, change.url);
 });
+
+function sendTabInfo(tabId: number, url?: string) {
+	window.sentio?.activePage.setActiveTab(tabId, url);
+}
