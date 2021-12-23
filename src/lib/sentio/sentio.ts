@@ -11,8 +11,6 @@ export default class Sentio {
 		this._videoBookmarks = new VideoBookmarkManager();
 		this._activePage = new ActivePage(this.videoBookmarks);
 		this._options = new OptionsManager();
-
-		this.load();
 	}
 
 	get videoBookmarks() {
@@ -25,20 +23,12 @@ export default class Sentio {
 		return this._options;
 	}
 
-	save(): void {
-		browser.storage.local.set({ data: this._videoBookmarks.export() });
-		browser.storage.local.set({ options: this._options.export() });
+	async save(): Promise<void> {
+		this._videoBookmarks.save();
+		this._options.save();
 	}
 	async load(): Promise<void> {
-		try {
-			this.videoBookmarks.import(
-				(await browser.storage.local.get('data'))?.['data']
-			);
-			this.options.import(
-				(await browser.storage.local.get('options'))?.['options']
-			);
-		} catch (error) {
-			// console.error(error);
-		}
+		this._videoBookmarks.load();
+		this._options.load();
 	}
 }

@@ -3,6 +3,19 @@
 import optionConfigs from '../src/lib/sentio/options/options';
 import OptionsManager from '../src/lib/sentio/options/optionsManager';
 
+// .load() accesses the browser.storage api, does not work in test, so that´s the workaround
+OptionsManager.prototype.load = () => {
+	return new Promise(resolve => {
+		resolve();
+	});
+};
+// .save() accesses the browser.storage api, does not work in test, so that´s the workaround
+OptionsManager.prototype.save = () => {
+	return new Promise(resolve => {
+		resolve();
+	});
+};
+
 describe('test OptionManager', () => {
 	let om: OptionsManager;
 	beforeEach(() => {

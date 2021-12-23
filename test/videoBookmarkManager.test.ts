@@ -3,6 +3,19 @@
 import VideoBookmark, { VideoData } from '../src/lib/sentio/videoBookmark';
 import VideoBookmarkManager from '../src/lib/sentio/videoBookmarkManager';
 
+// .load() accesses the browser.storage api, does not work in test, so that´s the workaround
+VideoBookmarkManager.prototype.load = () => {
+	return new Promise(resolve => {
+		resolve();
+	});
+};
+// .save() accesses the browser.storage api, does not work in test, so that´s the workaround
+VideoBookmarkManager.prototype.save = () => {
+	return new Promise(resolve => {
+		resolve();
+	});
+};
+
 describe('VideoBookmarkManager', () => {
 	let m: VideoBookmarkManager;
 

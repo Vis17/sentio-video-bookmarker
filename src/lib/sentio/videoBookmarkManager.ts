@@ -4,7 +4,10 @@ export default class VideoBookmarkManager {
 	private _data: Map<string, VideoBookmark>;
 
 	constructor() {
+		// initialize
 		this._data = new Map();
+
+		this.load();
 	}
 
 	/**
@@ -22,12 +25,16 @@ export default class VideoBookmarkManager {
 	 */
 	delete(src: string) {
 		this._data.delete?.(src);
+
+		this.save();
 	}
 	/**
 	 * Deletes all VideoBookmarks.
 	 */
 	deleteAll() {
 		this._data.clear();
+
+		this.save();
 	}
 	/**
 	 * Updates a given VideoBookmark
@@ -41,6 +48,8 @@ export default class VideoBookmarkManager {
 	}
 	private set(videoBookmark: VideoBookmark) {
 		this._data.set(videoBookmark.src, videoBookmark);
+
+		this.save();
 	}
 	has(src: string): boolean {
 		return this._data.has(src);
@@ -91,5 +100,22 @@ export default class VideoBookmarkManager {
 		arr?.forEach?.(x =>
 			this.set(x instanceof VideoBookmark ? x : new VideoBookmark(x))
 		);
+	}
+
+	/**
+	 * Saves the videobookmark-data to the local extension storage.
+	 *
+	 * Should be called after each modification.
+	 */
+	async save(): Promise<void> {
+		await browser.storage.local.set({ data: this.export() });
+	}
+	/** Loads the videobookmark-data from the local extension storage and tries to import the data */
+	async load(): Promise<void> {
+		try {
+			this.import((await browser.storage.local.get('data'))?.['data']);
+		} catch (error) {
+			// console.error(error);
+		}
 	}
 }

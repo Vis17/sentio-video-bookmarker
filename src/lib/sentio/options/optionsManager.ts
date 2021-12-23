@@ -6,19 +6,31 @@ import {
 } from './options';
 
 export default class OptionsManager {
+	// REVIEW use a Map?
 	private _data!: { [key in OptionId]: OptionValue };
 
 	constructor() {
-		// set default
-		this.reset();
+		// initialize
+		this.reset(false);
+
+		// override defaults if possible
+		this.load();
 	}
 
-	private reset() {
+	/**
+	 * Resets the option-data.
+	 * @param save Determines whether or not the data should be saved. Deafaults to `true`.
+	 */
+	private reset(save = true) {
 		this._data = { ...defaultOptions };
+
+		if (save) this.save();
 	}
 
 	set(key: OptionId, value: OptionValue) {
 		this._data[key] = value;
+
+		this.save();
 	}
 	get(key: OptionId): OptionValue {
 		return this._data[key];
@@ -51,6 +63,27 @@ export default class OptionsManager {
 				)
 					this._data[option[0]] = false;
 			});
+		}
+
+		this.save();
+	}
+
+	/**
+	 * Saves the option-data to the local extension storage.
+	 *
+	 * Should be called after each modification.
+	 */
+	async save(): Promise<void> {
+		browser.storage.local.set({ options: this.export() });
+	}
+	/** Loads the option-data from the local extension storage and tries to import the data */
+	async load(): Promise<void> {
+		try {
+			this.import(
+				(await browser.storage.local.get('options'))?.['options']
+			);
+		} catch (error) {
+			// console.error(error);
 		}
 	}
 }
