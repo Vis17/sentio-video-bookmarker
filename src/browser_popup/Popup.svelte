@@ -12,6 +12,9 @@
 			sentio = w.sentio;
 		});
 		videoBookmarks = [...(sentio?.videoBookmarks.query({}) ?? [])];
+
+		if (sentio?.options.get('page-auto-reload'))
+			sentio?.activePage.reloadVideos();
 	});
 
 	function openOptions(): void {

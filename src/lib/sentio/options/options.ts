@@ -22,6 +22,13 @@ const optionConfigs = asElementTypes({
 			'This will show an icon in the address-bar in which the videos to bookmark can be selected.',
 		default: true,
 	},
+	'page-auto-reload': {
+		type: 'checkbox',
+		title: 'Automatically load the videos on the page',
+		description:
+			'This will automatically reload the videos, visible for SENTIO if you open the popup.',
+		default: true,
+	},
 
 	'video-auto-load-last-timestamp': {
 		type: 'checkbox',

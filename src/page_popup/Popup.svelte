@@ -12,6 +12,13 @@
 			sentio = w.sentio;
 		});
 		videos = sentio?.activePage.videos ?? [];
+
+		(async () => {
+			if (!sentio?.options.get('page-auto-reload')) return;
+
+			await sentio?.activePage.reloadVideos();
+			videos = sentio?.activePage.videos ?? [];
+		})();
 	});
 </script>
 
