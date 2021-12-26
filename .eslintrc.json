@@ -12,7 +12,8 @@
 	"plugins": ["@typescript-eslint"],
 	"ignorePatterns": ["dist/*", "node_modules/*", ".vscode/*"],
 	"rules": {
-		"indent": ["error", "tab"],
+		"indent": ["off", "tab"],
+		"no-mixed-spaces-and-tabs": "off",
 		"linebreak-style": ["error", "unix"],
 		"quotes": ["error", "single"],
 		"semi": ["error", "always"]
