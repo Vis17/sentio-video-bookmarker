@@ -16,6 +16,7 @@
 		"no-mixed-spaces-and-tabs": "off",
 		"linebreak-style": ["error", "unix"],
 		"quotes": ["error", "single"],
-		"semi": ["error", "always"]
+		"semi": ["error", "always"],
+		"no-console": ["warn", { "allow": ["warn", "error"] }]
 	}
 }
