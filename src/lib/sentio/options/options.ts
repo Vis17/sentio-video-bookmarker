@@ -44,6 +44,13 @@ const optionConfigs = asElementTypes({
 			'This will update the video-bookmark automatically if you continue to watch',
 		default: true,
 	},
+	'video-enable-guessing': {
+		type: 'checkbox',
+		title: 'Enable video guessing',
+		description:
+			'This will guess a video is the same if their length and URL are the same, even if the source is different. Required for YouTube, ...',
+		default: true,
+	},
 
 	'menu-show-video-src': {
 		type: 'checkbox',

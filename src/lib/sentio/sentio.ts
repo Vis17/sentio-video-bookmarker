@@ -9,8 +9,8 @@ export default class Sentio {
 
 	constructor() {
 		this._videoBookmarks = new VideoBookmarkManager();
-		this._activePage = new ActivePage(this.videoBookmarks);
 		this._options = new OptionsManager();
+		this._activePage = new ActivePage(this.videoBookmarks, this.options);
 	}
 
 	get videoBookmarks() {

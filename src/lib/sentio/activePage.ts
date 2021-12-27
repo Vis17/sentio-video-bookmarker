@@ -1,4 +1,5 @@
 import { PageEventName } from '../../types';
+import OptionsManager from './options/optionsManager';
 import VideoBookmark, { VideoData } from './videoBookmark';
 import type VideoBookmarkManager from './videoBookmarkManager';
 
@@ -6,11 +7,11 @@ export default class ActivePage {
 	private _tabId!: number;
 	private _url = '';
 	private _videos: VideoData[] = [];
-	private _videoBookmarks: VideoBookmarkManager;
 
-	constructor(videoBookmarkManager: VideoBookmarkManager) {
-		this._videoBookmarks = videoBookmarkManager;
-	}
+	constructor(
+		private _videoBookmarkManager: VideoBookmarkManager,
+		private _optionsManager: OptionsManager
+	) {}
 
 	/** The tab-id the activePage is running in */
 	get tabId() {
@@ -58,12 +59,27 @@ export default class ActivePage {
 		const videoBookmarks: VideoBookmark[] = [];
 
 		// iterate through all videos
-		this._videos.forEach(vid =>
+		this._videos.forEach(vid => {
 			// pick VideoBookmarks
-			videoBookmarks.push(...this._videoBookmarks.query({ src: vid.src }))
-		);
+			videoBookmarks.push(
+				...this._videoBookmarkManager.query({ src: vid.src })
+			);
+			if (this._optionsManager.get('video-enable-guessing'))
+				videoBookmarks.push(
+					...this._videoBookmarkManager.query({
+						baseUrl: vid.baseUrl,
+						duration: vid.duration,
+					})
+				);
+		});
 
-		return videoBookmarks;
+		const seenItems: string[] = [];
+
+		return videoBookmarks.filter(x => {
+			if (seenItems.includes(x.src)) return false;
+			seenItems.push(x.src);
+			return true;
+		});
 	}
 
 	/**
