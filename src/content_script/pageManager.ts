@@ -2,6 +2,8 @@ import { OptionId, OptionValue } from '../lib/sentio/options/options';
 import { VideoData } from '../lib/sentio/videoBookmark';
 import { BackgroundEventName } from '../types';
 
+const SENTIO_GUESS_ATTRIBUTE = 'sentio-guess-src';
+
 export default class PageManager {
 	constructor() {
 		this.processVideos();
@@ -9,6 +11,8 @@ export default class PageManager {
 
 	async processVideos(videos?: HTMLVideoElement[]): Promise<void> {
 		if (!videos) return this.processVideos(this.getVideoElements());
+
+		const videoBookmarks = (await this.sendVideos(videos)) ?? [];
 
 		videos.forEach(video => {
 			// TODO remove event-listeners somehow...
@@ -20,11 +24,18 @@ export default class PageManager {
 			video.addEventListener('timeupdate', function () {
 				pageManager.onVideoTimeupdate(this);
 			});
+
+			video.addEventListener('durationchange', function () {
+				if (!this.hasAttribute(SENTIO_GUESS_ATTRIBUTE)) return;
+
+				this.removeAttribute(SENTIO_GUESS_ATTRIBUTE);
+
+				pageManager.setGuessedSrc([video], videoBookmarks);
+			});
 		});
 
-		const videoBookmarks = await this.sendVideos(videos);
-		await this.setGuessedSrc(videos, videoBookmarks ?? []);
-		await this.setVideoTimes(videos, videoBookmarks ?? []);
+		await this.setGuessedSrc(videos, videoBookmarks);
+		await this.setVideoTimes(videos, videoBookmarks);
 	}
 	private sendVideos(
 		videos?: HTMLVideoElement[]
@@ -41,7 +52,7 @@ export default class PageManager {
 				timestamp: Math.round(video.currentTime),
 				duration: Math.round(video.duration),
 				baseUrl: window.location.toString(),
-				src: video.getAttribute('sentio-guess-src') || video.src,
+				src: video.getAttribute(SENTIO_GUESS_ATTRIBUTE) || video.src,
 			});
 		});
 		return videoData;
@@ -55,6 +66,8 @@ export default class PageManager {
 	) {
 		if (!(await getOptions('video-enable-guessing'))) return;
 
+		// first remove all attributes
+		videos.forEach(v => v.removeAttribute?.(SENTIO_GUESS_ATTRIBUTE));
 		videos
 			.filter(
 				v =>
@@ -68,7 +81,7 @@ export default class PageManager {
 			)
 			.forEach(video =>
 				video.setAttribute(
-					'sentio-guess-src',
+					SENTIO_GUESS_ATTRIBUTE,
 					videoBookmarks.find(
 						x =>
 							x.baseUrl === window.location.toString() &&
@@ -87,7 +100,9 @@ export default class PageManager {
 				.filter(v =>
 					videoBookmarks
 						?.map(x => x.src)
-						?.includes(v.getAttribute('sentio-guess-src') || v.src)
+						?.includes(
+							v.getAttribute(SENTIO_GUESS_ATTRIBUTE) || v.src
+						)
 				)
 				.forEach(video =>
 					this.setVideoTime(
@@ -95,8 +110,9 @@ export default class PageManager {
 						videoBookmarks.find(
 							x =>
 								x.src ===
-									video.getAttribute('sentio-guess-src') ||
-								video.src
+									video.getAttribute(
+										SENTIO_GUESS_ATTRIBUTE
+									) || video.src
 						)
 					)
 				);
