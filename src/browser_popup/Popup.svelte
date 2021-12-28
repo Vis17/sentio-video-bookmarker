@@ -52,7 +52,7 @@
 	</header>
 
 	<main>
-		<h1>Video bookmarks</h1>
+		<h1>Video Bookmarks</h1>
 
 		<div class="c-bookmarks">
 			{#each videoBookmarks as x}
