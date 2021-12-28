@@ -1,9 +1,6 @@
 <script lang="ts">
 	//#region imports
-	import { fade, crossfade, fly } from 'svelte/transition';
-	import { flip } from 'svelte/animate';
-	import { tweened } from 'svelte/motion';
-	import * as e from 'svelte/easing';
+	import { fade } from 'svelte/transition';
 	import { afterUpdate } from 'svelte';
 	import Options from './Options.svelte';
 	import Manage from './Manage.svelte';
