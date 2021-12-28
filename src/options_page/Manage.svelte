@@ -78,6 +78,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Manage Video Bookmarks | Sentio - Video-Bookmarker</title>
+</svelte:head>
+
 <div class="wrapper">
 	<div class="c-top">
 		<h1>Manage Video Bookmarks</h1>

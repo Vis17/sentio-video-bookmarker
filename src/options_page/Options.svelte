@@ -37,6 +37,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Options | Sentio - Video-Bookmarker</title>
+</svelte:head>
+
 <div>
 	<form on:submit|preventDefault={onSubmit} on:reset|preventDefault={onReset}>
 		<h1>Options</h1>
