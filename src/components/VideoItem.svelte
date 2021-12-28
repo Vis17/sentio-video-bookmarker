@@ -116,6 +116,7 @@
 		cursor: pointer;
 
 		@include a.flex-container(row);
+		gap: 1rem;
 
 		&:hover {
 			background-color: darken(a.$gray6, 2%);
@@ -125,19 +126,20 @@
 		}
 
 		.c-data {
-			width: 100%;
-		}
+			width: 10rem;
+			flex-grow: 1;
 
-		.c-infos {
-			display: flex;
-			justify-content: flex-start;
-			flex-flow: column nowrap;
-			.info-item {
-				font-size: 1.5rem;
-			}
-			.url,
-			.src {
-				font-size: 1.1rem;
+			.c-infos {
+				display: flex;
+				justify-content: flex-start;
+				flex-flow: column nowrap;
+				.info-item {
+					font-size: 1.5rem;
+				}
+				.url,
+				.src {
+					font-size: 1.1rem;
+				}
 			}
 		}
 
