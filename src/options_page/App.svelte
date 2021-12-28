@@ -11,6 +11,7 @@
 		'manage' = 1,
 	}
 	let visibleTab: Tab = Tab['options'];
+	const version = browser.runtime.getManifest().version ?? '-';
 
 	function checkHash() {
 		const hash = window.location.hash.substring(1);
@@ -43,6 +44,9 @@
 		</div>
 		<div>
 			<!-- bottom-items -->
+			<span class="sidebar-item no-onclick version text-overflow"
+				>Version: <b>{version}</b></span
+			>
 		</div>
 	</aside>
 
@@ -98,14 +102,20 @@
 			border-radius: 0.2rem;
 			display: block;
 
-			cursor: pointer;
+			&:not(.no-onclick) {
+				cursor: pointer;
 
-			transition: all 0.3s;
-			&:hover {
-				background-color: a.$gray4;
+				transition: all 0.3s;
+				&:hover {
+					background-color: a.$gray4;
+				}
+				&:active {
+					letter-spacing: -0.1rem;
+				}
 			}
-			&:active {
-				letter-spacing: -0.1rem;
+
+			&.version {
+				text-align: center;
 			}
 		}
 	}
