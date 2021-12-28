@@ -177,6 +177,8 @@
 							name="timestamp"
 							id="timestamp"
 							bind:value={editVideo.timestamp}
+							max={editVideo.duration}
+							min="0"
 						/>
 					</div>
 				</FormItem>
