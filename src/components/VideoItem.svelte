@@ -39,6 +39,11 @@
 			return sentio?.videoBookmarks.create(video.videoData);
 	}
 
+	function openThis() {
+		if (video?.videoBookmark)
+			browser.tabs.create({ url: video.videoBookmark.baseUrl ?? '' });
+	}
+
 	function deleteThis() {
 		if (video?.videoBookmark)
 			sentio?.videoBookmarks.delete(video.videoBookmark?.src);
@@ -46,7 +51,7 @@
 	}
 </script>
 
-<div class="c-video" on:click={onClick}>
+<div class="c-video" on:dblclick={openThis} on:click={onClick}>
 	<div class="c-data">
 		<h2 class="text-overflow">
 			{video?.videoBookmark?.title ?? video?.videoData?.title}
@@ -92,8 +97,19 @@
 	</div>
 	{#if hasControls}
 		<div class="c-controls">
-			<div class="icon" on:click|stopPropagation={deleteThis}>
+			<div
+				class="icon"
+				on:click|stopPropagation={deleteThis}
+				title="Delete this video-bookmark."
+			>
 				<img src="icons/trash.svg" alt="Trash" />
+			</div>
+			<div
+				class="icon"
+				on:click|stopPropagation={openThis}
+				title="Open this video-bookmark.&#13;Protip: Double click the item to open."
+			>
+				<img src="icons/play.svg" alt="Play" />
 			</div>
 		</div>
 	{/if}
@@ -144,6 +160,9 @@
 		}
 
 		.c-controls {
+			@include a.flex-container();
+			gap: 0.5rem;
+
 			.icon {
 				width: 4rem;
 				height: 4rem;

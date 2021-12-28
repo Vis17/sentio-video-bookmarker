@@ -76,6 +76,9 @@
 
 		reload();
 	}
+	function openBookmark() {
+		if (editVideo.baseUrl) browser.tabs.create({ url: editVideo.baseUrl });
+	}
 </script>
 
 <svelte:head>
@@ -208,6 +211,7 @@
 				<div>
 					<button type="submit">Save</button>
 					<button type="reset">Clear</button>
+					<button type="button" on:click={openBookmark}>Open</button>
 				</div>
 			</form>
 		{/if}
