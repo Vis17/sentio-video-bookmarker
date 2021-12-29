@@ -38,5 +38,7 @@
 		"open_in_tab": true
 	},
 
-	"permissions": ["storage", "tabs"]
+	"permissions": ["storage", "tabs"],
+
+	"optional_permissions": ["bookmarks"]
 }
