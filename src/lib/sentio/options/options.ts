@@ -62,7 +62,7 @@ const optionConfigs = asElementTypes({
 		type: 'checkbox',
 		title: 'Create a browser-bookmark when creating a video-bookmark',
 		description:
-			'This will create a browser-bookmark if a video-bookmark is created. Additional permission is required for this to work.',
+			'This will manage a browser-bookmark next to the video-bookmark. Additional permission is required for this to work.',
 		default: false,
 		permissionsToRequest: ['bookmarks'],
 	},
