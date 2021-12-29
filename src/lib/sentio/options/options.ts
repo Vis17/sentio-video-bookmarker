@@ -39,7 +39,7 @@ const optionConfigs = asElementTypes({
 	},
 	'video-auto-update-bookmark': {
 		type: 'checkbox',
-		title: 'Automatically update the time of bookmarked video',
+		title: 'Automatically update the timestamp of the bookmarked video',
 		description:
 			'This will update the video-bookmark automatically if you continue to watch',
 		default: true,
