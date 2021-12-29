@@ -60,13 +60,13 @@
 
 		editExpanded = false;
 	}
-	function editSubmit() {
+	async function editSubmit() {
 		editExpanded = false;
 		if (
 			(editVideo &&
-				sentio?.videoBookmarks.update(
+				(await sentio?.videoBookmarks.update(
 					new VideoBookmark({ ...editVideo })
-				)) ||
+				))) ||
 			!editVideo.src
 		)
 			return reload();

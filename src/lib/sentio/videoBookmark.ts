@@ -4,6 +4,7 @@ export interface VideoData {
 	duration: number;
 	baseUrl: string;
 	src: string;
+	browserBookmarkId?: string;
 }
 export default class VideoBookmark {
 	private _data: VideoData;
@@ -32,6 +33,9 @@ export default class VideoBookmark {
 	get duration() {
 		return this._data.duration;
 	}
+	get browserBookmarkId() {
+		return this._data.browserBookmarkId;
+	}
 
 	export(): VideoData {
 		return {
@@ -40,6 +44,7 @@ export default class VideoBookmark {
 			src: this.src,
 			timestamp: this.timestamp,
 			duration: this.duration,
+			browserBookmarkId: this.browserBookmarkId,
 		};
 	}
 }
