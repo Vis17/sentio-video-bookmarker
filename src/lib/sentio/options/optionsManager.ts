@@ -46,11 +46,13 @@ export default class OptionsManager {
 	 * * `ignore`: ignore all not given option-names
 	 * * `reset`: reset all not given option-names (to their default values)
 	 * * `false`: set all not given option-names to false (if type is boolean)
+	 * @returns The permissions to request from the user, based on their saved options.
+	 * *No check whether they are already granted or not.*
 	 */
 	import(
 		data: { [key in OptionId]?: OptionValue },
 		type: 'ignore' | 'reset' | 'false' = 'ignore'
-	) {
+	): Set<browser._manifest.OptionalPermission> {
 		if (type === 'reset') this.reset();
 		for (const d in data) {
 			this._data[d as OptionId] = data[d as OptionId] as OptionValue;
@@ -66,6 +68,18 @@ export default class OptionsManager {
 		}
 
 		this.save();
+
+		// return permissions that should be requested
+		const permissionsToRequest: Set<browser._manifest.OptionalPermission> =
+			new Set();
+		arrayOfOptionConfigs.forEach(option => {
+			if (option[1].permissionsToRequest && data?.[option[0]] === true)
+				option[1]?.permissionsToRequest?.forEach?.(x =>
+					permissionsToRequest.add(x)
+				);
+		});
+
+		return permissionsToRequest;
 	}
 
 	/**

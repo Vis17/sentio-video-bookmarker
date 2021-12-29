@@ -33,7 +33,11 @@
 	}): void {
 		if (!options) return importInOptionManager(optionValues);
 
-		sentio?.options.import(options, 'ignore');
+		const permissionsToRequest = sentio?.options.import(options, 'ignore');
+		if (permissionsToRequest)
+			browser.permissions.request({
+				permissions: [...permissionsToRequest],
+			});
 	}
 </script>
 

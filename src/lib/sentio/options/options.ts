@@ -7,13 +7,20 @@ export interface OptionConfigInterface {
 
 	type: 'checkbox';
 	default: OptionValue;
+
+	permissionsToRequest?: browser._manifest.OptionalPermission[];
 }
 /** The value of an Option */
 export type OptionValue = boolean;
 const asElementTypes = <T>(et: { [K in keyof T]: OptionConfigInterface }) => et;
 //#endregion
 
-/** Information about the Option */
+/**
+ * Information about the Option
+ *
+ * **Options, requesting any `optional_permissions` must always be *opt-in*,
+ * so their default value must be `false`!**
+ */
 const optionConfigs = asElementTypes({
 	'page-action-show': {
 		type: 'checkbox',
@@ -55,8 +62,9 @@ const optionConfigs = asElementTypes({
 		type: 'checkbox',
 		title: 'Create a browser-bookmark when creating a video-bookmark',
 		description:
-			'This will create a browser-bookmark if a video-bookmark is created. Additional permission is required.',
+			'This will create a browser-bookmark if a video-bookmark is created. Additional permission is required for this to work.',
 		default: false,
+		permissionsToRequest: ['bookmarks'],
 	},
 
 	'menu-show-video-src': {
