@@ -58,7 +58,7 @@ const optionConfigs = asElementTypes({
 			'This will guess a video is the same if their length and URL are the same, even if the source is different. Required for YouTube, ...',
 		default: true,
 	},
-	'video-create-bookmark': {
+	'video-manage-browser-bookmark': {
 		type: 'checkbox',
 		title: 'Create a browser-bookmark when creating a video-bookmark',
 		description:

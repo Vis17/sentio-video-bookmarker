@@ -21,7 +21,7 @@ export default class VideoBookmarkManager {
 		if (!videoData) return;
 
 		if (
-			this._options.get('video-create-bookmark') &&
+			this._options.get('video-manage-browser-bookmark') &&
 			(await browser.permissions.contains({
 				permissions: ['bookmarks'],
 			}))
