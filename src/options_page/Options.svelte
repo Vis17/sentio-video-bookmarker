@@ -56,7 +56,10 @@
 		<h1>Options</h1>
 
 		{#each arrayOfOptionConfigs as option}
-			<FormItem name={option[0]}>
+			<FormItem
+				name={option[0]}
+				column={typeof optionConfigs[option[0]]?.default === 'string'}
+			>
 				<svelte:fragment slot="title">{option[1].title}</svelte:fragment
 				>
 				<svelte:fragment slot="description"

@@ -2,10 +2,11 @@
 	import { OptionId } from '../lib/sentio/options/options';
 
 	export let name: OptionId | string;
+	export let column = false;
 </script>
 
 <div class="form-item no-select">
-	<label for={name}>
+	<label for={name} class:column>
 		<div>
 			<p>
 				<slot name="title">Where is the title?</slot>
@@ -16,7 +17,9 @@
 				</small>
 			{/if}
 		</div>
-		<slot name="input" />
+		<div class="form-item-input">
+			<slot name="input" />
+		</div>
 	</label>
 </div>
 
@@ -29,6 +32,16 @@
 		label {
 			@include a.flex-container(row);
 			align-items: center;
+			gap: 1rem;
+
+			&.column {
+				flex-flow: column nowrap;
+				align-items: flex-start;
+
+				.form-item-input {
+					width: 100%;
+				}
+			}
 		}
 	}
 </style>
