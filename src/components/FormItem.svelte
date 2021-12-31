@@ -2,7 +2,6 @@
 	import { OptionId } from '../lib/sentio/options/options';
 
 	export let name: OptionId | string;
-	export let checked: boolean = true;
 </script>
 
 <div class="form-item no-select">
@@ -17,9 +16,7 @@
 				</small>
 			{/if}
 		</div>
-		<slot name="input">
-			<input type="checkbox" {name} id={name} bind:checked />
-		</slot>
+		<slot name="input" />
 	</label>
 </div>
 

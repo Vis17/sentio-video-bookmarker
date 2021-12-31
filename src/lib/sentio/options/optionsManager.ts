@@ -2,12 +2,13 @@ import {
 	arrayOfOptionConfigs,
 	defaultOptions,
 	OptionId,
-	OptionValue,
+	OptionTypeFromId,
+	OptionValuesMapped,
 } from './options';
 
 export default class OptionsManager {
 	// REVIEW use a Map?
-	private _data!: { [key in OptionId]: OptionValue };
+	private _data!: OptionValuesMapped;
 
 	constructor() {
 		// initialize
@@ -27,16 +28,16 @@ export default class OptionsManager {
 		if (save) this.save();
 	}
 
-	set(key: OptionId, value: OptionValue) {
+	set<T extends OptionId>(key: T, value: OptionValuesMapped[T]) {
 		this._data[key] = value;
 
 		this.save();
 	}
-	get(key: OptionId): OptionValue {
+	get<T extends OptionId>(key: T): OptionTypeFromId<T> {
 		return this._data[key];
 	}
 
-	export(): { [key in OptionId]: OptionValue } {
+	export(): OptionValuesMapped {
 		return { ...this._data };
 	}
 	/**
@@ -50,12 +51,12 @@ export default class OptionsManager {
 	 * *No check whether they are already granted or not.*
 	 */
 	import(
-		data: { [key in OptionId]?: OptionValue },
+		data: Partial<OptionValuesMapped>,
 		type: 'ignore' | 'reset' | 'false' = 'ignore'
 	): Set<browser._manifest.OptionalPermission> {
 		if (type === 'reset') this.reset();
 		for (const d in data) {
-			this._data[d as OptionId] = data[d as OptionId] as OptionValue;
+			(this._data[d as OptionId] as unknown) = data[d as OptionId];
 		}
 		if (type === 'false') {
 			arrayOfOptionConfigs.forEach(option => {
@@ -63,7 +64,7 @@ export default class OptionsManager {
 					!(option[0] in data) &&
 					typeof option[1].default === 'boolean'
 				)
-					this._data[option[0]] = false;
+					(this._data[option[0]] as unknown) = false;
 			});
 		}
 
