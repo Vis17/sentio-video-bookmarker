@@ -60,13 +60,13 @@
 
 		editExpanded = false;
 	}
-	function editSubmit() {
+	async function editSubmit() {
 		editExpanded = false;
 		if (
 			(editVideo &&
-				sentio?.videoBookmarks.update(
+				(await sentio?.videoBookmarks.update(
 					new VideoBookmark({ ...editVideo })
-				)) ||
+				))) ||
 			!editVideo.src
 		)
 			return reload();
@@ -127,7 +127,7 @@
 				on:submit|preventDefault={editSubmit}
 				on:reset|preventDefault={editReset}
 			>
-				<FormItem name="title">
+				<FormItem name="title" column>
 					<svelte:fragment slot="title">Title</svelte:fragment>
 					<input
 						type="text"
@@ -137,7 +137,7 @@
 						bind:value={editVideo.title}
 					/>
 				</FormItem>
-				<FormItem name="base-url">
+				<FormItem name="base-url" column>
 					<svelte:fragment slot="title">URL</svelte:fragment>
 					<svelte:fragment slot="description"
 						>The URL the video was found on.</svelte:fragment
@@ -151,7 +151,7 @@
 						bind:value={editVideo.baseUrl}
 					/>
 				</FormItem>
-				<FormItem name="src">
+				<FormItem name="src" column>
 					<svelte:fragment slot="title">Source</svelte:fragment>
 					<svelte:fragment slot="description"
 						>The source the video is loaded from. Used to identify

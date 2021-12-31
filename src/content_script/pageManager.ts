@@ -1,4 +1,4 @@
-import { OptionId, OptionValue } from '../lib/sentio/options/options';
+import { OptionId, OptionValuesMapped } from '../lib/sentio/options/options';
 import { VideoData } from '../lib/sentio/videoBookmark';
 import { BackgroundEventName } from '../types';
 
@@ -136,15 +136,15 @@ function sendMessage<T>(
 }
 
 /** Requests the options from the background-page */
-function getOptions(): Promise<{ [key in OptionId]: OptionValue }>;
+function getOptions(): Promise<OptionValuesMapped>;
 /**
  * Requests the options from the background-page
  * @param key The value of the option with this key will be returned
  */
-function getOptions(key: OptionId): Promise<OptionValue>;
-function getOptions(
-	key?: OptionId
-): Promise<{ [key in OptionId]: OptionValue } | OptionValue> {
+function getOptions<T extends OptionId>(key: T): Promise<OptionValuesMapped[T]>;
+function getOptions<T extends OptionId>(
+	key?: T
+): Promise<OptionValuesMapped | OptionValuesMapped[T]> {
 	if (key) return sendMessage('back-get-options', key);
 	return sendMessage('back-get-options');
 }

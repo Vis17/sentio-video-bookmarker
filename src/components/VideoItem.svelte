@@ -46,8 +46,9 @@
 
 	function deleteThis() {
 		if (video?.videoBookmark)
-			sentio?.videoBookmarks.delete(video.videoBookmark?.src);
-		dispatch('reload-required');
+			sentio?.videoBookmarks
+				.delete(video.videoBookmark?.src)
+				.finally(() => dispatch('reload-required'));
 	}
 </script>
 

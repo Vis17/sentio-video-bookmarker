@@ -1,9 +1,10 @@
+import OptionsManager from './options/optionsManager';
 import VideoBookmark, { VideoData } from './videoBookmark';
 
 export default class VideoBookmarkManager {
 	private _data: Map<string, VideoBookmark>;
 
-	constructor() {
+	constructor(private _options: OptionsManager) {
 		// initialize
 		this._data = new Map();
 
@@ -16,34 +17,77 @@ export default class VideoBookmarkManager {
 	 * ***The VideoBookmarks are unique by their src-attribute!***
 	 * @param videoData The video data, the VideoBookmark is created on.
 	 */
-	create(videoData: VideoData) {
-		if (videoData) this.set(new VideoBookmark(videoData));
+	async create(videoData: VideoData) {
+		if (!videoData) return;
+
+		if (
+			this._options.get('video-manage-browser-bookmark') &&
+			(await browser.permissions.contains({
+				permissions: ['bookmarks'],
+			}))
+		) {
+			videoData.browserBookmarkId = (
+				await browser.bookmarks.create({
+					url: videoData.baseUrl,
+					type: 'bookmark',
+					title: this._options
+						.get('video-browser-bookmark-base')
+						.replace(/\$title/gi, videoData.title ?? ''),
+				})
+			).id;
+		}
+
+		this.set(new VideoBookmark(videoData));
 	}
 	/**
 	 * Delete a VideoBookmark by its src-attribute.
 	 * @param src The src-attribute of the VideoBookmark to delete.
 	 */
-	delete(src: string) {
+	async delete(src: string) {
+		const videoBookmark = this._data.get?.(src);
+		if (
+			(await browser.permissions.contains({
+				permissions: ['bookmarks'],
+			})) &&
+			videoBookmark?.browserBookmarkId
+		)
+			try {
+				// workaround, because of missing function declaration in @types/firefox-webext-browser,
+				// see https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/57890
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
+				await browser.bookmarks.remove(videoBookmark.browserBookmarkId);
+			} catch (e) {
+				//
+			}
+
 		this._data.delete?.(src);
 
 		this.save();
 	}
-	/**
-	 * Deletes all VideoBookmarks.
-	 */
+	/** Deletes all VideoBookmarks. */
 	deleteAll() {
-		this._data.clear();
-
-		this.save();
+		this._data.forEach(videoBookmark => this.delete(videoBookmark.src));
 	}
 	/**
 	 * Updates a given VideoBookmark
 	 * @param videoBookmark
 	 * @returns Whether or not the VideoBookmark was present && updated.
 	 */
-	update(videoBookmark: VideoBookmark): boolean {
+	async update(videoBookmark: VideoBookmark): Promise<boolean> {
 		if (!this._data.has(videoBookmark.src)) return false;
 		this.set(videoBookmark);
+
+		if (
+			videoBookmark.browserBookmarkId &&
+			(await browser.permissions.contains({ permissions: ['bookmarks'] }))
+		)
+			browser.bookmarks.update(videoBookmark.browserBookmarkId, {
+				title: this._options
+					.get('video-browser-bookmark-base')
+					.replace(/\$title/gi, videoBookmark.title ?? ''),
+				url: videoBookmark.baseUrl,
+			});
 		return true;
 	}
 	private set(videoBookmark: VideoBookmark) {

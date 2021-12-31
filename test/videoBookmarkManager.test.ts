@@ -1,5 +1,6 @@
 // INFO Tests are not complete
 
+import OptionsManager from '../src/lib/sentio/options/optionsManager';
 import VideoBookmark, { VideoData } from '../src/lib/sentio/videoBookmark';
 import VideoBookmarkManager from '../src/lib/sentio/videoBookmarkManager';
 
@@ -20,7 +21,9 @@ describe('VideoBookmarkManager', () => {
 	let m: VideoBookmarkManager;
 
 	beforeEach(() => {
-		m = new VideoBookmarkManager();
+		// all options that require optional_permissions are opt-in, so there should
+		// be no problem with the default values
+		m = new VideoBookmarkManager(new OptionsManager());
 	});
 
 	function getVideoData(): VideoData[] {
