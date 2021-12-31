@@ -77,6 +77,13 @@ const optionConfigs = {
 		default: false,
 		permissionsToRequest: ['bookmarks'],
 	},
+	'video-browser-bookmark-base': <OptionConfigInterfaceString>{
+		type: 'string',
+		title: 'Base string for naming browser-bookmarks',
+		description:
+			'Take this base-string to build the title of a browser-bookmark. `$title` gets replaced with the actual title of the video-bookmark.',
+		default: '$title | Sentio - Video-Bookmark',
+	},
 
 	'menu-show-video-src': <OptionConfigInterfaceBoolean>{
 		type: 'boolean',

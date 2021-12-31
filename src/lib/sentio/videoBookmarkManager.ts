@@ -30,7 +30,9 @@ export default class VideoBookmarkManager {
 				await browser.bookmarks.create({
 					url: videoData.baseUrl,
 					type: 'bookmark',
-					title: `${videoData.title} | Sentio - Video-Bookmark`,
+					title: this._options
+						.get('video-browser-bookmark-base')
+						.replace(/\$title/gi, videoData.title ?? ''),
 				})
 			).id;
 		}
@@ -81,7 +83,9 @@ export default class VideoBookmarkManager {
 			(await browser.permissions.contains({ permissions: ['bookmarks'] }))
 		)
 			browser.bookmarks.update(videoBookmark.browserBookmarkId, {
-				title: `${videoBookmark.title} | Sentio - Video-Bookmark`,
+				title: this._options
+					.get('video-browser-bookmark-base')
+					.replace(/\$title/gi, videoBookmark.title ?? ''),
 				url: videoBookmark.baseUrl,
 			});
 		return true;
