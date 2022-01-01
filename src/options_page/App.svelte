@@ -44,8 +44,9 @@
 		</div>
 		<div>
 			<!-- bottom-items -->
-			<span class="sidebar-item no-onclick version text-overflow"
-				>Version: <b>{version}</b></span
+			<span
+				class="sidebar-item no-onclick version text-overflow"
+				title={`Version: ${version}`}>Version: <b>{version}</b></span
 			>
 		</div>
 	</aside>
