@@ -20,31 +20,37 @@ browser.runtime.onMessage.addListener(
 	}
 );
 
-// tab-update
+browser.windows.onFocusChanged.addListener(async () => {
+	// window-focus changed
+	const activeTab = await getActiveTab();
+	sendTabInfo(activeTab.id ?? 0, activeTab?.url);
+});
 browser.tabs.onActivated.addListener(async info => {
-	const activeTab = (
-		await browser.tabs.query({
-			active: true,
-			currentWindow: true,
-		})
-	)?.[0];
+	// tab-focus changed
+	const activeTab = await getActiveTab();
 
 	if (activeTab.id !== info.tabId) return;
 
 	sendTabInfo(info.tabId, activeTab.url);
 });
 browser.tabs.onUpdated.addListener(async (tabId, change) => {
-	const activeTabId = (
-		await browser.tabs.query({
-			active: true,
-			currentWindow: true,
-		})
-	)?.[0]?.id;
+	// tab updated
+	const activeTabId = (await getActiveTab())?.id;
 
 	if (activeTabId !== tabId || !change.url) return;
 
 	sendTabInfo(activeTabId, change.url);
 });
+
+/** @returns The active tab in the current window */
+async function getActiveTab() {
+	return (
+		await browser.tabs.query({
+			active: true,
+			currentWindow: true,
+		})
+	)?.[0];
+}
 
 function sendTabInfo(tabId: number, url?: string) {
 	window.sentio?.activePage.setActiveTab(tabId, url);
