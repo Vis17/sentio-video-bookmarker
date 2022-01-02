@@ -129,8 +129,9 @@ export default class PageManager {
 	private setVideoTime(video: HTMLVideoElement, videoBookmark?: VideoData) {
 		if (
 			videoBookmark?.timestamp &&
-			// make sure to only update if there is an significant change
-			Math.round(video.currentTime) !== videoBookmark.timestamp
+			// make sure to only update if there is a significant change
+			(Math.round(video.currentTime) - 1 > videoBookmark.timestamp ||
+				Math.round(video.currentTime) + 1 < videoBookmark.timestamp)
 		)
 			video.currentTime = videoBookmark.timestamp;
 	}
