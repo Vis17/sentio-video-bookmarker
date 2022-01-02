@@ -7,6 +7,7 @@ export default class ActivePage {
 	private _tabId!: number;
 	private _url = '';
 	private _videos: VideoData[] = [];
+	private _notLoadedVideos = 0;
 
 	constructor(
 		private _videoBookmarkManager: VideoBookmarkManager,
@@ -33,18 +34,23 @@ export default class ActivePage {
 	get videos() {
 		return this._videos;
 	}
+	/** Videos that are on the page, but their metadata is not loaded. */
+	get notLoadedVideos() {
+		return this._notLoadedVideos;
+	}
 	/** Resets the videos on activePage */
 	clearVideos() {
 		this._videos = [];
+		this._notLoadedVideos = 0;
 	}
 	/** Adds videos on activePage */
 	addVideos(videos: VideoData[]) {
 		videos.forEach(x => this.addVideo(x));
-
-		// this.getCurrentVideoBookmarks();
 	}
 	private addVideo(video: VideoData) {
-		this._videos.push(video);
+		if (VideoBookmark.isValid(video)) return this._videos.push(video);
+
+		this._notLoadedVideos++;
 	}
 	updateVideo(video: VideoData) {
 		try {

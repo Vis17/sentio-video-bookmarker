@@ -7,6 +7,23 @@ export interface VideoData {
 	browserBookmarkId?: string;
 }
 export default class VideoBookmark {
+	static isValid(d: VideoBookmark): boolean;
+	static isValid(d: VideoData): boolean;
+	static isValid(d: VideoBookmark | VideoData): boolean {
+		if (!d.baseUrl && d.baseUrl !== '') return false;
+		if ((!d.duration && d.duration !== 0) || isNaN(d.duration))
+			return false;
+		if (
+			(!d.timestamp && d.timestamp !== 0) ||
+			isNaN(d.timestamp) ||
+			d.timestamp > d.duration
+		)
+			return false;
+		if (!d.src) return false;
+
+		return true;
+	}
+
 	private _data: VideoData;
 
 	constructor(data: VideoData) {
