@@ -7,6 +7,15 @@ const SENTIO_GUESS_ATTRIBUTE = 'sentio-guess-src';
 export default class PageManager {
 	constructor() {
 		this.processVideos();
+
+		// use a MutationObserver to update all videos on DOM changes
+		new MutationObserver(() => this.processVideos()).observe(
+			document.body,
+			{
+				childList: true,
+				subtree: true,
+			}
+		);
 	}
 
 	async processVideos(videos?: HTMLVideoElement[]): Promise<void> {
@@ -118,7 +127,11 @@ export default class PageManager {
 				);
 	}
 	private setVideoTime(video: HTMLVideoElement, videoBookmark?: VideoData) {
-		if (videoBookmark?.timestamp)
+		if (
+			videoBookmark?.timestamp &&
+			// make sure to only update if there is an significant change
+			Math.round(video.currentTime) !== videoBookmark.timestamp
+		)
 			video.currentTime = videoBookmark.timestamp;
 	}
 
