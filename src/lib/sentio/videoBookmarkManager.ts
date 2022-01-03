@@ -33,6 +33,7 @@ export default class VideoBookmarkManager {
 					title: this._options
 						.get('video-browser-bookmark-base')
 						.replace(/\$title/gi, videoData.title ?? ''),
+					parentId: (await this.getBrowserBookmarkParent())?.id,
 				})
 			).id;
 		}
@@ -159,5 +160,29 @@ export default class VideoBookmarkManager {
 		} catch (error) {
 			// console.error(error);
 		}
+	}
+
+	private async getBrowserBookmarkParent() {
+		if (
+			!(await browser.permissions.contains({
+				permissions: ['bookmarks'],
+			}))
+		)
+			throw 'Missing Permissions!';
+
+		return (
+			(
+				await browser.bookmarks.search({
+					title: this._options.get(
+						'video-browser-bookmark-folder-name'
+					),
+				})
+			)?.filter(x => x.type === 'folder')?.[0] ??
+			// create the folder if not available
+			(await browser.bookmarks.create({
+				title: this._options.get('video-browser-bookmark-folder-name'),
+				type: 'folder',
+			}))
+		);
 	}
 }

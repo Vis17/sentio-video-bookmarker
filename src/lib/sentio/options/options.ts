@@ -84,6 +84,13 @@ const optionConfigs = {
 			'Take this base-string to build the title of a browser-bookmark. `$title` gets replaced with the actual title of the video-bookmark.',
 		default: '$title | Sentio - Video-Bookmark',
 	},
+	'video-browser-bookmark-folder-name': <OptionConfigInterfaceString>{
+		type: 'string',
+		title: 'The name of the folder containing the browser-bookmarks',
+		default: 'Sentio | Video-Bookmarks',
+		description:
+			'The name of the folder, new browser-bookmarks are saved in. Note: Old browser-bookmarks remain in their old folder and have to be moved manually if wished.',
+	},
 
 	'menu-show-video-src': <OptionConfigInterfaceBoolean>{
 		type: 'boolean',
