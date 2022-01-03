@@ -52,10 +52,8 @@ export default class VideoBookmarkManager {
 			videoBookmark?.browserBookmarkId
 		)
 			try {
-				// workaround, because of missing function declaration in @types/firefox-webext-browser,
+				// @ts-expect-error workaround, because of missing function declaration in @types/firefox-webext-browser,
 				// see https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/57890
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
 				await browser.bookmarks.remove(videoBookmark.browserBookmarkId);
 			} catch (e) {
 				//
