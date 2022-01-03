@@ -1,18 +1,36 @@
-# Sentio - Video bookmarker
+# Sentio - Video-Bookmarker
 
 Sentio is a Firefox-Addon that lets you create Video-Bookmarks 📺.
 
 They work like you expect them to work: bookmark a video and Sentio will save 💾, to which point 🕔 you have watched the video. These information help Sentio to jump right into where you stopped last time ▶ if you visit the page again.
 
+## Build the extension
+
+```bash
+# Setup
+npm install
+
+# Compile with webpack
+npm run build:prod
+```
+
+Upload the zipped `dist` folder to AMO
+
+```bash
+# or sign the addon with
+# for this make sure a firefox_api_creds.json with the keys "api_key", "api_secret" & "id" is available
+npm run sign:firefox
+```
+
 ## Development
 
-* project setup
+- Project setup
 
 ```bash
 npm install
 ```
 
-* compiling & file-watching
+- Bundling
 
 ```bash
 npm run build:dev:watch
@@ -20,7 +38,7 @@ npm run build:dev:watch
 npm run build:dev
 ```
 
-* tests the files with jest (only a few files/funtions are getting tested (yet)!)
+- Testing (only a few files/funtions are getting tested (yet)!)
 
 ```bash
 npm run test
@@ -28,23 +46,25 @@ npm run test
 npm run test:watch
 ```
 
-* lints the files
+- Linting
 
 ```bash
 npm run lint
 ```
 
-* starts the addon in Firefox Developer Edition with auto reloading
+- Starting the addon in Firefox Developer Edition with auto reloading
 
 ```bash
 npm run start:firefoxdeveloperedition
 ```
 
-* builds for production
+For a complete production build check [**this**](#build-the-extension) out.
 
-```bash
-npm run build:prod
-```
+## Libraries
+
+- [Svelte](https://svelte.dev/) and [Sass](https://sass-lang.com/) are used for the UI
+- [webpack](https://webpack.js.org/) is used to bundle the files
+- [Jest](https://jestjs.io/) is used for the few tests
 
 ## License
 
