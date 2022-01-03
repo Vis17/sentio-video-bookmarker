@@ -18,14 +18,12 @@
 	});
 
 	function openOptions(): void {
-		try {
-			browser.runtime.openOptionsPage();
-		} catch (err) {
+		browser.runtime.openOptionsPage().catch(() => {
 			// fallback
 			browser.tabs.create({
 				url: `options.html#options`,
 			});
-		}
+		});
 	}
 
 	function openManageMenu() {
