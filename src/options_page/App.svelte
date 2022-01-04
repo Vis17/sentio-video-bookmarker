@@ -4,11 +4,13 @@
 	import { afterUpdate } from 'svelte';
 	import Options from './Options.svelte';
 	import Manage from './Manage.svelte';
+	import About from './About.svelte';
 	//#endregion
 
 	enum Tab {
 		'options' = 0,
 		'manage' = 1,
+		'about' = 2,
 	}
 	let visibleTab: Tab = Tab['options'];
 	const version = browser.runtime.getManifest().version ?? '-';
@@ -44,6 +46,9 @@
 		</div>
 		<div>
 			<!-- bottom-items -->
+			<a href="#about" class="sidebar-item text-overflow no-select">
+				<span>About</span>
+			</a>
 			<span
 				class="sidebar-item no-onclick version text-overflow"
 				title={`Version: ${version}`}>Version: <b>{version}</b></span
@@ -61,6 +66,12 @@
 		{#if visibleTab === Tab['manage']}
 			<div class="full-height" in:fade={{ duration: 300 }}>
 				<Manage />
+			</div>
+		{/if}
+
+		{#if visibleTab === Tab['about']}
+			<div class="full-height" in:fade={{ duration: 300 }}>
+				<About />
 			</div>
 		{/if}
 	</main>
@@ -102,6 +113,7 @@
 			margin: 0.2rem 0.5rem;
 			border-radius: 0.2rem;
 			display: block;
+			color: a.$gray1;
 
 			&:not(.no-onclick) {
 				cursor: pointer;

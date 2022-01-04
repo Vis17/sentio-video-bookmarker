@@ -1,0 +1,7 @@
+@use '../abstracts' as a;
+
+ul,
+ol {
+	list-style-position: inside;
+	list-style-type: square;
+}
