@@ -52,13 +52,7 @@ export default class VideoBookmarkManager {
 			})) &&
 			videoBookmark?.browserBookmarkId
 		)
-			try {
-				// @ts-expect-error workaround, because of missing function declaration in @types/firefox-webext-browser,
-				// see https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/57890
-				await browser.bookmarks.remove(videoBookmark.browserBookmarkId);
-			} catch (e) {
-				//
-			}
+			browser.bookmarks.remove(videoBookmark.browserBookmarkId).catch();
 
 		this._data.delete?.(src);
 

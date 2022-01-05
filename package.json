@@ -17,7 +17,7 @@
 	"author": "Vis17",
 	"license": "MIT",
 	"devDependencies": {
-		"@types/firefox-webext-browser": "^94.0.0",
+		"@types/firefox-webext-browser": "^94.0.1",
 		"@types/jest": "^27.0.3",
 		"@typescript-eslint/eslint-plugin": "^5.7.0",
 		"@typescript-eslint/parser": "^5.7.0",
