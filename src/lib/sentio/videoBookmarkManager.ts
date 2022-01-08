@@ -81,6 +81,14 @@ export default class VideoBookmarkManager {
 					.replace(/\$title/gi, videoBookmark.title ?? ''),
 				url: videoBookmark.baseUrl,
 			});
+
+		// delete if wished && activated
+		if (
+			this._options.get('video-auto-delete') &&
+			videoBookmark.duration === videoBookmark.timestamp
+		)
+			this.delete(videoBookmark.src);
+
 		return true;
 	}
 	private set(videoBookmark: VideoBookmark) {

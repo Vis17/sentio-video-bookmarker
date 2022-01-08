@@ -69,6 +69,14 @@ const optionConfigs = {
 			'This will guess a video is the same if their length and URL are the same, even if the source is different. Required for YouTube, ...',
 		default: true,
 	},
+	'video-auto-delete': <OptionConfigInterfaceBoolean>{
+		type: 'boolean',
+		title: 'Enable video bookmark auto delete',
+		description:
+			'This will delete a video bookmark after a video is watched.',
+		default: true,
+	},
+
 	'video-manage-browser-bookmark': <OptionConfigInterfaceBoolean>{
 		type: 'boolean',
 		title: 'Create a browser-bookmark when creating a video-bookmark',
