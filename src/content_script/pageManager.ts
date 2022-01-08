@@ -1,8 +1,14 @@
 import { OptionId, OptionValuesMapped } from '../lib/sentio/options/options';
-import { VideoData } from '../lib/sentio/videoBookmark';
+import VideoBookmark, { VideoData } from '../lib/sentio/videoBookmark';
 import { BackgroundEventName } from '../types';
 
-const SENTIO_GUESS_ATTRIBUTE = 'sentio-guess-src';
+/** Attribute names for HTML-Videos */
+const SENTIO_ATTRIBUTES = {
+	/** The guessed src-attribute, if turned on. */
+	GUESS: 'sentio-guess-src',
+	/** Marks every video, watched by event listeners. */
+	KNOWN: 'sentio-video-known',
+};
 
 export default class PageManager {
 	constructor() {
@@ -22,29 +28,33 @@ export default class PageManager {
 		if (!videos) return this.processVideos(this.getVideoElements());
 
 		const videoBookmarks = (await this.sendVideos(videos)) ?? [];
+		const unknownVideos: HTMLVideoElement[] = [];
 
 		videos.forEach(video => {
-			// TODO remove event-listeners somehow...
-			// video.removeEventListener('timeupdate', pageManager.onVideoTimeupdate);
+			// make sure, to only attach event-listeners, to unknown videos
+			if (
+				video.hasAttribute(SENTIO_ATTRIBUTES.KNOWN) ||
+				!VideoBookmark.isValid(this.getVideoData(video))
+			)
+				return;
 
-			// eslint-disable-next-line @typescript-eslint/no-this-alias
-			const pageManager = this;
+			video.setAttribute(SENTIO_ATTRIBUTES.KNOWN, '');
 
-			video.addEventListener('timeupdate', function () {
-				pageManager.onVideoTimeupdate(this);
+			video.addEventListener('timeupdate', () => {
+				this.onVideoTimeupdate(video);
 			});
 
-			video.addEventListener('durationchange', function () {
-				if (!this.hasAttribute(SENTIO_GUESS_ATTRIBUTE)) return;
-
-				this.removeAttribute(SENTIO_GUESS_ATTRIBUTE);
-
-				pageManager.setGuessedSrc([video], videoBookmarks);
+			video.addEventListener('durationchange', () => {
+				this.setGuessedSrc([video], videoBookmarks);
 			});
+
+			unknownVideos.push(video);
 		});
 
+		if (unknownVideos.length === 0) return;
+
 		await this.setGuessedSrc(videos, videoBookmarks);
-		await this.setVideoTimes(videos, videoBookmarks);
+		await this.setVideoTimes(unknownVideos, videoBookmarks);
 	}
 	private sendVideos(
 		videos?: HTMLVideoElement[]
@@ -53,17 +63,24 @@ export default class PageManager {
 
 		return sendMessage('back-videos', this.getVideoData(videos));
 	}
-	private getVideoData(videos: HTMLVideoElement[]): VideoData[] {
-		const videoData: VideoData[] = [];
-		videos.forEach(video => {
-			videoData.push({
+	private getVideoData(video: HTMLVideoElement): VideoData;
+	private getVideoData(videos: HTMLVideoElement[]): VideoData[];
+	private getVideoData(
+		videoOrVideos: HTMLVideoElement[] | HTMLVideoElement
+	): VideoData[] | VideoData {
+		if (videoOrVideos instanceof HTMLVideoElement)
+			return {
 				title: document.title,
-				timestamp: Math.round(video.currentTime),
-				duration: Math.round(video.duration),
+				timestamp: Math.round(videoOrVideos.currentTime),
+				duration: Math.round(videoOrVideos.duration),
 				baseUrl: window.location.toString(),
-				src: video.getAttribute(SENTIO_GUESS_ATTRIBUTE) || video.src,
-			});
-		});
+				src:
+					videoOrVideos.getAttribute(SENTIO_ATTRIBUTES.GUESS) ||
+					videoOrVideos.src,
+			};
+
+		const videoData: VideoData[] = [];
+		videoOrVideos.forEach(x => videoData.push(this.getVideoData(x)));
 		return videoData;
 	}
 	private getVideoElements() {
@@ -76,7 +93,7 @@ export default class PageManager {
 		if (!(await getOptions('video-enable-guessing'))) return;
 
 		// first remove all attributes
-		videos.forEach(v => v.removeAttribute?.(SENTIO_GUESS_ATTRIBUTE));
+		videos.forEach(v => v.removeAttribute?.(SENTIO_ATTRIBUTES.GUESS));
 		videos
 			.filter(
 				v =>
@@ -90,7 +107,7 @@ export default class PageManager {
 			)
 			.forEach(video =>
 				video.setAttribute(
-					SENTIO_GUESS_ATTRIBUTE,
+					SENTIO_ATTRIBUTES.GUESS,
 					videoBookmarks.find(
 						x =>
 							x.baseUrl === window.location.toString() &&
@@ -110,7 +127,7 @@ export default class PageManager {
 					videoBookmarks
 						?.map(x => x.src)
 						?.includes(
-							v.getAttribute(SENTIO_GUESS_ATTRIBUTE) || v.src
+							v.getAttribute(SENTIO_ATTRIBUTES.GUESS) || v.src
 						)
 				)
 				.forEach(video =>
@@ -120,7 +137,7 @@ export default class PageManager {
 							x =>
 								x.src ===
 									video.getAttribute(
-										SENTIO_GUESS_ATTRIBUTE
+										SENTIO_ATTRIBUTES.GUESS
 									) || video.src
 						)
 					)
@@ -130,14 +147,15 @@ export default class PageManager {
 		if (
 			videoBookmark?.timestamp &&
 			// make sure to only update if there is a significant change
-			(Math.round(video.currentTime) - 1 > videoBookmark.timestamp ||
-				Math.round(video.currentTime) + 1 < videoBookmark.timestamp)
+			(video.currentTime - 1 > videoBookmark.timestamp ||
+				video.currentTime + 1 < videoBookmark.timestamp)
 		)
 			video.currentTime = videoBookmark.timestamp;
 	}
 
 	private async onVideoTimeupdate(video: HTMLVideoElement): Promise<void> {
-		sendMessage('back-video-update', this.getVideoData([video])?.[0]);
+		const data = this.getVideoData(video);
+		if (VideoBookmark.isValid(data)) sendMessage('back-video-update', data);
 	}
 }
 
