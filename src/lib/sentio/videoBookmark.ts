@@ -53,6 +53,9 @@ export default class VideoBookmark {
 	get browserBookmarkId() {
 		return this._data.browserBookmarkId;
 	}
+	set browserBookmarkId(x) {
+		this._data.browserBookmarkId = x;
+	}
 
 	export(): VideoData {
 		return {
