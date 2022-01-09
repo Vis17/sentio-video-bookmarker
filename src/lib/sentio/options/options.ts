@@ -12,6 +12,9 @@ interface OptionConfigInterfaceString extends BaseOptionConfigInterface {
 interface OptionConfigInterfaceBoolean extends BaseOptionConfigInterface {
 	default: boolean;
 }
+interface OptionConfigInterfaceNumber extends BaseOptionConfigInterface {
+	default: number;
+}
 
 export type OptionTypeFromId<T extends OptionId> =
 	typeof optionConfigs[T]['default'];
@@ -19,9 +22,12 @@ export type OptionValuesMapped = {
 	[K in keyof typeof optionConfigs]: OptionTypeFromId<K>;
 };
 
-export type OptionConfigInterface =
-	| (BaseOptionConfigInterface & OptionConfigInterfaceBoolean)
-	| OptionConfigInterfaceString;
+export type OptionConfigInterface = BaseOptionConfigInterface &
+	(
+		| OptionConfigInterfaceBoolean
+		| OptionConfigInterfaceString
+		| OptionConfigInterfaceNumber
+	);
 //#endregion
 
 /**

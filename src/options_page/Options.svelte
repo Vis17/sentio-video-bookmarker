@@ -65,7 +65,9 @@
 		{#each arrayOfOptionConfigs as option}
 			<FormItem
 				name={option[0]}
-				column={typeof optionConfigs[option[0]]?.default === 'string'}
+				column={!(
+					typeof optionConfigs[option[0]]?.default === 'boolean'
+				)}
 			>
 				<svelte:fragment slot="title"
 					>{option[1].title}
@@ -90,6 +92,13 @@
 							id={option[0]}
 							bind:value={optionValues[option[0]]}
 							type="text"
+						/>
+					{:else if typeof optionConfigs[option[0]]?.default === 'number' && typeof optionValues[option[0]] === 'number'}
+						<input
+							id={option[0]}
+							bind:value={optionValues[option[0]]}
+							type="number"
+							min="0"
 						/>
 					{/if}
 				</div>
