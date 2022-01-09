@@ -7,11 +7,9 @@ interface BaseOptionConfigInterface {
 	permissionsToRequest?: browser._manifest.OptionalPermission[];
 }
 interface OptionConfigInterfaceString extends BaseOptionConfigInterface {
-	type: 'string';
 	default: string;
 }
 interface OptionConfigInterfaceBoolean extends BaseOptionConfigInterface {
-	type: 'boolean';
 	default: boolean;
 }
 
@@ -34,14 +32,12 @@ export type OptionConfigInterface =
  */
 const optionConfigs = {
 	'page-action-show': <OptionConfigInterfaceBoolean>{
-		type: 'boolean',
 		title: 'Show the "Page - Action"',
 		description:
 			'This will show an icon in the address-bar in which the videos to bookmark can be selected.',
 		default: true,
 	},
 	'page-auto-reload': <OptionConfigInterfaceBoolean>{
-		type: 'boolean',
 		title: 'Automatically load the videos on the page',
 		description:
 			'This will automatically reload the videos, visible for SENTIO if you open the popup.',
@@ -49,28 +45,24 @@ const optionConfigs = {
 	},
 
 	'video-auto-load-last-timestamp': <OptionConfigInterfaceBoolean>{
-		type: 'boolean',
 		title: 'Automatically load last timestamp of the video',
 		description:
 			'This will load the bookmarked timestamp automatically when visiting a site with this video.',
 		default: true,
 	},
 	'video-auto-update-bookmark': <OptionConfigInterfaceBoolean>{
-		type: 'boolean',
 		title: 'Automatically update the timestamp of the bookmarked video',
 		description:
 			'This will update the video-bookmark automatically if you continue to watch',
 		default: true,
 	},
 	'video-enable-guessing': <OptionConfigInterfaceBoolean>{
-		type: 'boolean',
 		title: 'Enable video guessing',
 		description:
 			'This will guess a video is the same if their length and URL are the same, even if the source is different. Required for YouTube, ...',
 		default: true,
 	},
 	'video-auto-delete': <OptionConfigInterfaceBoolean>{
-		type: 'boolean',
 		title: 'Enable video bookmark auto delete',
 		description:
 			'This will delete a video bookmark after a video is watched.',
@@ -78,7 +70,6 @@ const optionConfigs = {
 	},
 
 	'video-manage-browser-bookmark': <OptionConfigInterfaceBoolean>{
-		type: 'boolean',
 		title: 'Create a browser-bookmark when creating a video-bookmark',
 		description:
 			'This will manage a browser-bookmark next to the video-bookmark. Additional permission is required for this to work.',
@@ -86,14 +77,12 @@ const optionConfigs = {
 		permissionsToRequest: ['bookmarks'],
 	},
 	'video-browser-bookmark-base': <OptionConfigInterfaceString>{
-		type: 'string',
 		title: 'Base string for naming browser-bookmarks',
 		description:
 			'Take this base-string to build the title of a browser-bookmark. `$title` gets replaced with the actual title of the video-bookmark.',
 		default: '$title | Sentio - Video-Bookmark',
 	},
 	'video-browser-bookmark-folder-name': <OptionConfigInterfaceString>{
-		type: 'string',
 		title: 'The name of the folder containing the browser-bookmarks',
 		default: 'Sentio | Video-Bookmarks',
 		description:
@@ -101,7 +90,6 @@ const optionConfigs = {
 	},
 
 	'menu-show-video-src': <OptionConfigInterfaceBoolean>{
-		type: 'boolean',
 		title: 'Show the videos src-attribute',
 		description:
 			'This will show the src-attribute of the videos in the menus.',
@@ -109,7 +97,6 @@ const optionConfigs = {
 	},
 
 	'edit-allow-read-only-properties': <OptionConfigInterfaceBoolean>{
-		type: 'boolean',
 		title: 'Allow editing read-only video bookmark properties',
 		description:
 			'This will allow to edit read-only properties from a video bookmark like the length of the video or the source.',
