@@ -31,6 +31,12 @@ export type OptionConfigInterface =
  * so their default value must be `false`!**
  */
 const optionConfigs = {
+	'developer-mode': <OptionConfigInterfaceBoolean>{
+		title: 'Developer Mode',
+		description: 'This will show more detailed information.',
+		default: false,
+	},
+
 	'page-action-show': <OptionConfigInterfaceBoolean>{
 		title: 'Show the "Page - Action"',
 		description:

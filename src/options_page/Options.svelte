@@ -15,20 +15,27 @@
 	 * in the binding, so I changed it to `any`
 	 */
 	let optionValues: any = {};
+	let developerMode = false;
+	function reload() {
+		developerMode = sentio?.options.get('developer-mode') ?? false;
+	}
 
 	browser.runtime.getBackgroundPage().then(w => {
 		sentio = w?.sentio;
 		optionValues = { ...sentio?.options.export() };
+		reload();
 	});
 
 	function onSubmit(): void {
 		importInOptionManager();
+		reload();
 	}
 
 	function onReset(): void {
 		optionValues = { ...defaultOptions };
 
 		importInOptionManager();
+		reload();
 	}
 
 	function importInOptionManager(
@@ -60,8 +67,14 @@
 				name={option[0]}
 				column={typeof optionConfigs[option[0]]?.default === 'string'}
 			>
-				<svelte:fragment slot="title">{option[1].title}</svelte:fragment
-				>
+				<svelte:fragment slot="title"
+					>{option[1].title}
+					{#if developerMode}
+						<br /><small
+							>Key: <code class="select">{option[0]}</code></small
+						>
+					{/if}
+				</svelte:fragment>
 				<svelte:fragment slot="description"
 					>{option[1].description}</svelte:fragment
 				>
