@@ -94,7 +94,14 @@ export default class VideoBookmarkManager {
 		// delete if wished && activated
 		if (
 			this._options.get('video-auto-delete') &&
-			videoBookmark.duration === videoBookmark.timestamp
+			(videoBookmark.duration === videoBookmark.timestamp ||
+				// check for the auto-delete time
+				(videoBookmark.timestamp >=
+					videoBookmark.duration -
+						this._options.get('video-auto-delete-time') &&
+					// && only if the vid is long enough
+					videoBookmark.duration >
+						this._options.get('video-auto-delete-time')))
 		)
 			this.delete(videoBookmark.src);
 

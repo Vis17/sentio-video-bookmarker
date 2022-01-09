@@ -80,6 +80,12 @@ const optionConfigs = {
 			'This will delete a video bookmark after a video is watched.',
 		default: true,
 	},
+	'video-auto-delete-time': <OptionConfigInterfaceNumber>{
+		title: 'Video-Bookmark auto delete end title time',
+		description:
+			'Automatically delete a Video-Bookmark, when the video is watched x seconds until the end. Video-Bookmark auto delete has to be enabled. Value in seconds.',
+		default: 10,
+	},
 
 	'video-manage-browser-bookmark': <OptionConfigInterfaceBoolean>{
 		title: 'Create a browser-bookmark when creating a video-bookmark',
