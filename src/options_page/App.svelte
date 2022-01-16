@@ -37,16 +37,34 @@
 			<!-- top-items -->
 			<img src="icons/icon.svg" alt="Logo" class="sidebar-logo" />
 
-			<a href="#options" class="sidebar-item text-overflow no-select">
+			<a
+				href="#options"
+				class="sidebar-item text-overflow no-select {visibleTab ===
+				Tab['options']
+					? 'active'
+					: ''}"
+			>
 				<span>Options</span>
 			</a>
-			<a href="#manage" class="sidebar-item text-overflow no-select">
+			<a
+				href="#manage"
+				class="sidebar-item text-overflow no-select {visibleTab ===
+				Tab['manage']
+					? 'active'
+					: ''}"
+			>
 				<span>Manage Bookmarks</span>
 			</a>
 		</div>
 		<div>
 			<!-- bottom-items -->
-			<a href="#about" class="sidebar-item text-overflow no-select">
+			<a
+				href="#about"
+				class="sidebar-item text-overflow no-select {visibleTab ===
+				Tab['about']
+					? 'active'
+					: ''}"
+			>
 				<span>About</span>
 			</a>
 			<span
@@ -129,6 +147,11 @@
 
 			&.version {
 				text-align: center;
+			}
+
+			&.active {
+				color: lighten(a.$copper-rose, 10);
+				background-color: darken(a.$gray6, 2);
 			}
 		}
 	}
