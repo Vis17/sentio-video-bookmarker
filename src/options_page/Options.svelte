@@ -68,6 +68,8 @@
 				column={!(
 					typeof optionConfigs[option[0]]?.default === 'boolean'
 				)}
+				inputLeft={typeof optionConfigs[option[0]]?.default ===
+					'boolean'}
 			>
 				<svelte:fragment slot="title"
 					>{option[1].title}
