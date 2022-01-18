@@ -186,6 +186,11 @@ export default class VideoBookmarkManager {
 			// console.error(error);
 		}
 	}
+	/** Clears the extion´s data (VideoBookmark) storage */
+	async clear() {
+		this._data.clear();
+		return browser.storage.local.remove('data');
+	}
 
 	private async getBrowserBookmarkParent() {
 		if (

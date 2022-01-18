@@ -31,4 +31,14 @@ export default class Sentio {
 		this._videoBookmarks.load();
 		this._options.load();
 	}
+	/** Clear the extension´s storage */
+	async clear() {
+		await Promise.allSettled([
+			this._videoBookmarks.clear(),
+			this._options.clear(),
+		]);
+
+		// just make sure to clear really everything ;)
+		return browser.storage.local.clear();
+	}
 }

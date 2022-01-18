@@ -101,4 +101,9 @@ export default class OptionsManager {
 			// console.error(error);
 		}
 	}
+	/** Clears the extion´s options storage */
+	clear() {
+		this.reset(false);
+		return browser.storage.local.remove('options');
+	}
 }
