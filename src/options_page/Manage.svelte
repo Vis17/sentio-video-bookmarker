@@ -38,8 +38,7 @@
 			)
 		)
 			return;
-		sentio?.videoBookmarks.deleteAll();
-		reload();
+		sentio?.videoBookmarks.deleteAll().then(reload);
 	}
 
 	function onclickVideoBookmark(e: CustomEvent<VideoData>) {

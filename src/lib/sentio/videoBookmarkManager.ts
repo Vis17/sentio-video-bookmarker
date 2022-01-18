@@ -58,9 +58,16 @@ export default class VideoBookmarkManager {
 
 		this.save();
 	}
-	/** Deletes all VideoBookmarks. */
+	/**
+	 * Deletes all VideoBookmarks.
+	 * @returns A Promise, resolving when all VideoBookmarks are deleted.
+	 */
 	deleteAll() {
-		this._data.forEach(videoBookmark => this.delete(videoBookmark.src));
+		const p: Promise<void>[] = [];
+		this._data.forEach(videoBookmark =>
+			p.push(this.delete(videoBookmark.src))
+		);
+		return Promise.allSettled(p);
 	}
 	/**
 	 * Updates a given VideoBookmark
