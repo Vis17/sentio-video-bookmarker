@@ -1,5 +1,9 @@
 @use '../abstracts' as a;
 
+:root {
+	color-scheme: dark light;
+}
+
 .highlight {
 	padding-left: 0.4rem;
 	border-left: 0.4rem solid a.$copper-rose;
