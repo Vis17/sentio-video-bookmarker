@@ -4,13 +4,15 @@
 	import { afterUpdate } from 'svelte';
 	import Options from './Options.svelte';
 	import Manage from './Manage.svelte';
+	import Storage from './Storage.svelte';
 	import About from './About.svelte';
 	//#endregion
 
 	enum Tab {
 		'options' = 0,
 		'manage' = 1,
-		'about' = 2,
+		'storage' = 2,
+		'about' = 3,
 	}
 	let visibleTab: Tab = Tab['options'];
 	const version = browser.runtime.getManifest().version ?? '-';
@@ -55,6 +57,15 @@
 			>
 				<span>Manage Bookmarks</span>
 			</a>
+			<a
+				href="#storage"
+				class="sidebar-item text-overflow no-select {visibleTab ===
+				Tab['storage']
+					? 'active'
+					: ''}"
+			>
+				<span>Storage</span>
+			</a>
 		</div>
 		<div>
 			<!-- bottom-items -->
@@ -84,6 +95,12 @@
 		{#if visibleTab === Tab['manage']}
 			<div class="full-height" in:fade={{ duration: 300 }}>
 				<Manage />
+			</div>
+		{/if}
+
+		{#if visibleTab === Tab['storage']}
+			<div class="full-height" in:fade={{ duration: 300 }}>
+				<Storage />
 			</div>
 		{/if}
 

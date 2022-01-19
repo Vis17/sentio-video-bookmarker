@@ -52,18 +52,6 @@
 				permissions: [...permissionsToRequest],
 			});
 	}
-
-	/** Clears the extension storage. _(Prompts user first via `confirm()`)_ */
-	function clear() {
-		if (
-			!confirm(
-				'Do you really want to clear the extension´s storage? This will not only clear all saved Options, but also all Video-Bookmarks.\nThis action cannot be undone.'
-			)
-		)
-			return;
-
-		sentio?.clear().finally(reload);
-	}
 </script>
 
 <svelte:head>
@@ -122,11 +110,6 @@
 		<div>
 			<button type="submit">Save</button>
 			<button type="reset">Reset</button>
-			<button
-				type="button"
-				on:click={clear}
-				title="This will clear all data, saved by Sentio.">Clear</button
-			>
 		</div>
 	</form>
 </div>
