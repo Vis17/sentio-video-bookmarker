@@ -256,6 +256,10 @@
 			border-radius: 1rem;
 			box-shadow: 0 0 1rem #000;
 
+			h2 {
+				padding: 0;
+			}
+
 			.time-formatted {
 				margin-right: 1rem;
 			}
