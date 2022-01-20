@@ -142,6 +142,10 @@
 			padding-left: 0.7rem;
 		}
 
+		h2 {
+			padding: 0;
+		}
+
 		.c-data {
 			width: 10rem;
 			flex-grow: 1;
