@@ -1,0 +1,2 @@
+# Changelog | Sentio - Video-Bookmarker
+
