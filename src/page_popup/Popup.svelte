@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import VideoDataItem from '../components/VideoDataItem.svelte';
 	import Sentio from '../lib/sentio/sentio';
 	import { type VideoData } from '../lib/sentio/videoBookmark';
-	import VideoItem from '../components/VideoItem.svelte';
 
 	let sentio: Sentio | undefined;
 	let videos: VideoData[] = [];
@@ -31,7 +31,7 @@
 
 		<div class="c-videos">
 			{#each videos as x}
-				<VideoItem video={{ videoData: x }} />
+				<VideoDataItem video={x} />
 			{/each}
 		</div>
 

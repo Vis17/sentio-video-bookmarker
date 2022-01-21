@@ -2,11 +2,11 @@
 	//#region imports
 	import { onMount } from 'svelte';
 	import { flip } from 'svelte/animate';
-	import VideoItem from '../components/VideoItem.svelte';
 	import FormItem from '../components/FormItem.svelte';
 	import Sentio from '../lib/sentio/sentio';
 	import VideoBookmark, { VideoData } from '../lib/sentio/videoBookmark';
 	import { format } from '../lib/puncto';
+	import VideoBookmarkItem from '../components/VideoBookmarkItem.svelte';
 	//#endregion
 
 	let videoBookmarks: VideoBookmark[] = [];
@@ -96,10 +96,10 @@
 		<div class="c-video-bookmarks">
 			{#each videoBookmarks as x (x.src)}
 				<div animate:flip={{ duration: 300 }}>
-					<VideoItem
-						video={{ videoBookmark: x }}
+					<VideoBookmarkItem
+						video={x}
 						hasControls={true}
-						defaultClickAction={false}
+						preventDefaultOnClick={true}
 						on:reload-required={reload}
 						on:click={onclickVideoBookmark}
 					/>

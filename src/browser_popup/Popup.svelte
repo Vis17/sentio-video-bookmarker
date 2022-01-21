@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import Sentio from '../lib/sentio/sentio';
 	import VideoBookmark from '../lib/sentio/videoBookmark';
-	import VideoItem from '../components/VideoItem.svelte';
+	import VideoBookmarkItem from '../components/VideoBookmarkItem.svelte';
 
 	let videoBookmarks: VideoBookmark[] = [];
 	let sentio: Sentio | undefined;
@@ -61,7 +61,7 @@
 
 		<div class="c-bookmarks">
 			{#each videoBookmarks as x}
-				<VideoItem video={{ videoBookmark: x }} />
+				<VideoBookmarkItem video={x} />
 			{:else}
 				<p class="p-no-videos highlight">No bookmarked videos yet.</p>
 				<small>
