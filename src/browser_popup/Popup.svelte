@@ -1,18 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Sentio from '../lib/sentio/sentio';
-	import VideoBookmark from '../lib/sentio/videoBookmark';
 	import VideoDataList from '../components/VideoDataList.svelte';
 
-	let videoBookmarks: VideoBookmark[] = [];
 	let sentio: Sentio | undefined;
+	let videoBookmarkList: VideoDataList;
 
 	onMount(async () => {
 		await browser.runtime.getBackgroundPage().then(w => {
 			sentio = w.sentio;
 		});
-		videoBookmarks = [...(sentio?.videoBookmarks.query({}) ?? [])];
-
 		if (sentio?.options.get('page-auto-reload'))
 			sentio?.activePage.reloadVideos();
 	});
@@ -33,11 +30,13 @@
 	}
 
 	async function reload(): Promise<void> {
-		// reload bookmarks from sentio
-		videoBookmarks = [...(sentio?.videoBookmarks.query({}) ?? [])];
-
 		// reload the videos on the page
 		await sentio?.activePage.reloadVideos();
+		update();
+	}
+
+	function update() {
+		videoBookmarkList.update();
 	}
 </script>
 
@@ -57,7 +56,11 @@
 	</header>
 
 	<main>
-		<VideoDataList list={{ type: 'video-bookmarks' }}>
+		<VideoDataList
+			list={{ type: 'video-bookmarks' }}
+			bind:this={videoBookmarkList}
+			on:reload-required={update}
+		>
 			<svelte:fragment slot="title">Video Bookmarks</svelte:fragment>
 		</VideoDataList>
 	</main>

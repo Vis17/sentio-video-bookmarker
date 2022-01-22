@@ -4,6 +4,8 @@
 	import VideoBookmark, { type VideoData } from '../lib/sentio/videoBookmark';
 	import VideoBookmarkItem from './VideoBookmarkItem.svelte';
 	import VideoDataItem from './VideoDataItem.svelte';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	export let list:
 		| { type: 'current-page-videos'; videos?: VideoData[] }
@@ -41,11 +43,17 @@
 	<div class="c-videos">
 		{#if list.type === 'current-page-videos'}
 			{#each list.videos ?? [] as x}
-				<VideoDataItem video={x} />
+				<VideoDataItem
+					on:click={() => dispatch('reload-required')}
+					video={x}
+				/>
 			{/each}
 		{:else if list.type === 'video-bookmarks'}
 			{#each list.videos ?? [] as x}
-				<VideoBookmarkItem video={x} />
+				<VideoBookmarkItem
+					on:reload-required={() => dispatch('reload-required')}
+					video={x}
+				/>
 			{/each}
 		{/if}
 	</div>
