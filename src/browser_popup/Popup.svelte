@@ -5,6 +5,7 @@
 
 	let sentio: Sentio | undefined;
 	let videoBookmarkList: VideoDataList;
+	let currentPageVideoList: VideoDataList;
 
 	onMount(async () => {
 		await browser.runtime.getBackgroundPage().then(w => {
@@ -37,6 +38,7 @@
 
 	function update() {
 		videoBookmarkList.update();
+		currentPageVideoList.update();
 	}
 </script>
 
@@ -56,6 +58,14 @@
 	</header>
 
 	<main>
+		<VideoDataList
+			list={{ type: 'current-page-videos' }}
+			bind:this={currentPageVideoList}
+			on:reload-required={update}
+		>
+			<svelte:fragment slot="title">Current Page Videos</svelte:fragment>
+		</VideoDataList>
+
 		<VideoDataList
 			list={{ type: 'video-bookmarks' }}
 			bind:this={videoBookmarkList}
