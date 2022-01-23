@@ -19,8 +19,8 @@
 		showScr = sentio?.options.get('menu-show-video-src') ?? false;
 	});
 
-	function onclick() {
-		if (!preventDefaultOnClick) sentio?.videoBookmarks.create(video);
+	async function onclick() {
+		if (!preventDefaultOnClick) await sentio?.videoBookmarks.toggle(video);
 
 		dispatch('click', video);
 	}

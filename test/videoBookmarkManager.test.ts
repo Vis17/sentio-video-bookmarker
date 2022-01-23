@@ -50,6 +50,24 @@ describe('VideoBookmarkManager', () => {
 		return arrayOfVideoData;
 	}
 
+	it('.toggle', async () => {
+		const [vid1, vid2] = getVideoData();
+
+		await m.create(vid1);
+
+		// TEST Delete
+		await m.toggle(vid1);
+		expect(m.has(vid1.src)).toBe(false);
+
+		// TEST Create 2nd
+		await m.toggle(vid2);
+		expect(m.has(vid2.src)).toBe(true);
+
+		// TEST Create
+		await m.toggle(vid1);
+		expect(m.has(vid1.src)).toBe(true);
+	});
+
 	it('.query', () => {
 		const [vid1, vid2] = createVideoBookmarks();
 
@@ -62,6 +80,28 @@ describe('VideoBookmarkManager', () => {
 		expect(m.query({ title: undefined })).toEqual([
 			new VideoBookmark(vid1),
 		]);
+	});
+
+	it('.isBookmark', () => {
+		const [vid1, vid2] = createVideoBookmarks();
+
+		expect(m.isBookmark(vid1)).toBe(true);
+		expect(
+			m.isBookmark({
+				src: 'dummy',
+				baseUrl: vid2.baseUrl,
+				duration: vid2.duration,
+				timestamp: 0,
+			})
+		).toBe(true);
+		expect(
+			m.isBookmark({
+				src: 'dummy',
+				baseUrl: 'dummy',
+				duration: vid2.duration,
+				timestamp: 0,
+			})
+		).toBe(false);
 	});
 
 	it('.export', () => {

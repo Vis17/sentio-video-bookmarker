@@ -69,6 +69,12 @@ export default class VideoBookmarkManager {
 		);
 		return Promise.allSettled(p);
 	}
+	/** Toggles the video-bookmark: Deletes the video-bookmark if present, creates if not. */
+	toggle(video: VideoData) {
+		if (this.isBookmark(video))
+			return this.delete(this.getGuessedSrc(video));
+		return this.create(video);
+	}
 	/**
 	 * Updates a given VideoBookmark
 	 * @param videoBookmark
@@ -142,6 +148,32 @@ export default class VideoBookmarkManager {
 			});
 			return !failed;
 		});
+	}
+
+	/** Determines whether the provided data is detected as a video-bookmark */
+	isBookmark(video: VideoData) {
+		if (this.has(video.src)) return true;
+		if (
+			this._options.get('video-enable-guessing') &&
+			this.query({ duration: video.duration, baseUrl: video.baseUrl })
+				.length >= 1
+		)
+			return true;
+
+		return false;
+	}
+
+	getGuessedSrc(video: VideoData): string {
+		if (
+			!this._options.get('video-enable-guessing') ||
+			!this.isBookmark(video)
+		)
+			return '';
+
+		return this.query({
+			duration: video.duration,
+			baseUrl: video.baseUrl,
+		})?.[0]?.src;
 	}
 
 	/**
