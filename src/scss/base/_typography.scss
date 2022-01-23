@@ -1,7 +1,9 @@
 @use '../abstracts' as a;
 
 html {
-	font-size: 10px;
+	// set rem: at default font-size (16px) 1rem is 10px
+	// through changing this font-size, everything adjusts
+	font-size: 0.625em;
 	font-family: Rubik, Arial, sans-serif;
 }
 
