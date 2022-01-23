@@ -17,11 +17,6 @@ const event: BrowserRuntimeBackgroundEvent = {
 				.getCurrentVideoBookmarks()
 				.map(x => x?.export()) ?? []),
 		]);
-
-		// show page-action
-		if (sentio?.options.get('page-action-show')) {
-			browser.pageAction.show(sender.tab?.id || 0);
-		}
 	},
 };
 

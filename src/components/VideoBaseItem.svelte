@@ -1,113 +1,64 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { format } from '../lib/puncto';
-	import Sentio from '../lib/sentio/sentio';
 	import VideoBookmark, { type VideoData } from '../lib/sentio/videoBookmark';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	export let video:
-		| { videoBookmark: VideoBookmark; videoData?: never }
-		| { videoData: VideoData; videoBookmark?: never }
-		| null;
+	export let video: VideoBookmark | VideoData;
 	export let hasControls = false;
-	export let defaultClickAction = true;
-	let sentio: Sentio | null;
-	let bookmark: boolean;
-	let showScr: boolean;
-
-	onMount(async () => {
-		await browser.runtime.getBackgroundPage().then(win => {
-			sentio = win.sentio ?? null;
-		});
-
-		bookmark = !!video?.videoBookmark;
-		showScr = sentio?.options.get('menu-show-video-src') ?? false;
-	});
-
-	function onClick() {
-		dispatch(
-			'click',
-			video?.videoBookmark?.export() ?? video?.videoData ?? null
-		);
-		if (!defaultClickAction) return;
-
-		if (video?.videoBookmark)
-			return browser.tabs.create({ url: video.videoBookmark.baseUrl });
-
-		if (video?.videoData)
-			return sentio?.videoBookmarks.create(video.videoData);
-	}
-
-	function openThis() {
-		if (video?.videoBookmark)
-			browser.tabs.create({ url: video.videoBookmark.baseUrl ?? '' });
-	}
-
-	function deleteThis() {
-		if (video?.videoBookmark)
-			sentio?.videoBookmarks
-				.delete(video.videoBookmark?.src)
-				.finally(() => dispatch('reload-required'));
-	}
+	export let showBaseUrl = false;
+	export let showScr = false;
 </script>
 
-<div class="c-video" on:dblclick={openThis} on:click={onClick}>
+<div
+	class="c-video"
+	on:dblclick={() => dispatch('dblclick')}
+	on:click={() => dispatch('click')}
+>
 	<div class="c-data">
-		<h2 class="text-overflow">
-			{video?.videoBookmark?.title ?? video?.videoData?.title}
-		</h2>
+		<h2 class="text-overflow">{video.title ?? 'Just a video.'}</h2>
 		<div class="c-infos">
-			<!-- is bookmark? => show base-url -->
-			{#if bookmark}
+			{#if showBaseUrl}
 				<span
 					class="info-item url text-overflow"
-					title={video?.videoBookmark?.baseUrl ??
-						video?.videoData?.baseUrl}
+					title={video.baseUrl ?? 'Something went wrong.'}
 				>
-					{video?.videoBookmark?.baseUrl ?? video?.videoData?.baseUrl}
+					{video.baseUrl ?? '# 404 #'}
 				</span>
 			{/if}
-			<!-- show src-attribute? -->
 			{#if showScr}
 				<span
 					class="info-item src text-overflow"
-					title={video?.videoBookmark?.src ?? video?.videoData?.src}
+					title={video.src ?? 'Something went wrong.'}
 				>
-					{video?.videoBookmark?.src ?? video?.videoData?.src}
+					{video.src ?? '# 404 #'}
 				</span>
 			{/if}
+
 			<div class="info-item">
 				<span class="info-item timestamp">
-					{format(
-						video?.videoBookmark?.timestamp ??
-							video?.videoData?.timestamp ??
-							0
-					)}
+					{format(video.timestamp ?? 0)}
 				</span>
 				/
 				<span class="info-item duration">
-					{format(
-						video?.videoBookmark?.duration ??
-							video?.videoData?.duration ??
-							0
-					)}
+					{format(video.duration ?? 0)}
 				</span>
 			</div>
 		</div>
 	</div>
+
 	{#if hasControls}
 		<div class="c-controls">
 			<div
 				class="icon"
-				on:click|stopPropagation={deleteThis}
+				on:click|stopPropagation={() => dispatch('click-delete')}
 				title="Delete this video-bookmark."
 			>
 				<img src="icons/trash.svg" alt="Trash" />
 			</div>
 			<div
 				class="icon"
-				on:click|stopPropagation={openThis}
+				on:click|stopPropagation={() => dispatch('click-play')}
 				title="Open this video-bookmark.&#13;Protip: Double click the item to open."
 			>
 				<img src="icons/play.svg" alt="Play" />

@@ -1,18 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Sentio from '../lib/sentio/sentio';
-	import VideoBookmark from '../lib/sentio/videoBookmark';
-	import VideoItem from '../components/VideoItem.svelte';
+	import VideoDataList from '../components/VideoDataList.svelte';
 
-	let videoBookmarks: VideoBookmark[] = [];
 	let sentio: Sentio | undefined;
+	let videoBookmarkList: VideoDataList;
+	let currentPageVideoList: VideoDataList;
 
 	onMount(async () => {
 		await browser.runtime.getBackgroundPage().then(w => {
 			sentio = w.sentio;
 		});
-		videoBookmarks = [...(sentio?.videoBookmarks.query({}) ?? [])];
-
 		if (sentio?.options.get('page-auto-reload'))
 			sentio?.activePage.reloadVideos();
 	});
@@ -33,11 +31,14 @@
 	}
 
 	async function reload(): Promise<void> {
-		// reload bookmarks from sentio
-		videoBookmarks = [...(sentio?.videoBookmarks.query({}) ?? [])];
-
 		// reload the videos on the page
 		await sentio?.activePage.reloadVideos();
+		update();
+	}
+
+	function update() {
+		videoBookmarkList.update();
+		currentPageVideoList.update();
 	}
 </script>
 
@@ -57,57 +58,64 @@
 	</header>
 
 	<main>
-		<h1>Video Bookmarks</h1>
+		<VideoDataList
+			list={{ type: 'current-page-videos' }}
+			bind:this={currentPageVideoList}
+			on:reload-required={update}
+		>
+			<svelte:fragment slot="title">Current Page Videos</svelte:fragment>
+		</VideoDataList>
 
-		<div class="c-bookmarks">
-			{#each videoBookmarks as x}
-				<VideoItem video={{ videoBookmark: x }} />
-			{:else}
-				<p class="p-no-videos highlight">No bookmarked videos yet.</p>
-				<small>
-					If you have already some bookmarked videos created, try to
-					press the 'Reload' button or try to restart the browser
-				</small>
-			{/each}
-		</div>
+		<VideoDataList
+			list={{ type: 'video-bookmarks' }}
+			bind:this={videoBookmarkList}
+			on:reload-required={update}
+		>
+			<svelte:fragment slot="title">Video Bookmarks</svelte:fragment>
+		</VideoDataList>
 	</main>
 </div>
 
 <style lang="scss">
 	@use '../scss/abstracts' as a;
-	@use '../scss/layout/popup';
 
-	.top-bar {
-		@include a.flex-container(row, nowrap, space-around);
-		align-items: center;
-		gap: 0;
+	.popup {
+		padding: 0;
+		width: 50rem;
+		overflow-y: scroll;
 
-		border-bottom: 2px solid a.$copper-rose;
-		box-shadow: 0 0.3rem 0.3rem darken(a.$gray6, 15);
+		header {
+			background-color: a.$gray6;
 
-		.top-bar-item {
-			cursor: pointer;
+			.top-bar {
+				@include a.flex-container(row, nowrap, space-around);
+				align-items: center;
+				gap: 0;
 
-			flex: 1 1 15rem;
-			text-align: center;
-			padding: 1rem 0;
+				border-bottom: 2px solid a.$copper-rose;
+				box-shadow: 0 0.3rem 0.3rem darken(a.$gray6, 15);
 
-			transition: all 0.3s;
-			&:hover {
-				letter-spacing: 0.1rem;
-				background-color: a.$gray5;
-			}
-			&:active {
-				letter-spacing: -0.1rem;
+				.top-bar-item {
+					cursor: pointer;
+
+					flex: 1 1 15rem;
+					text-align: center;
+					padding: 1rem 0;
+
+					transition: all 0.3s;
+					&:hover {
+						letter-spacing: 0.1rem;
+						background-color: a.$gray5;
+					}
+					&:active {
+						letter-spacing: -0.1rem;
+					}
+				}
 			}
 		}
-	}
 
-	.c-bookmarks {
-		padding: 1rem 0;
-	}
-
-	.p-no-videos {
-		margin: 0.5rem 0;
+		main {
+			padding: 1.5rem;
+		}
 	}
 </style>

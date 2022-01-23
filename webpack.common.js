@@ -1,3 +1,4 @@
+/* eslint-disable */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -6,7 +7,6 @@ module.exports = {
 	entry: {
 		background: './src/background/background.ts',
 		browser_popup: './src/browser_popup/index.ts',
-		page_popup: './src/page_popup/index.ts',
 		content_script: './src/content_script/contentScript.ts',
 		options: './src/options_page/index.ts',
 	},
@@ -59,13 +59,6 @@ module.exports = {
 			filename: 'browser_popup.html',
 			title: 'Overview | Sentio - Video-Bookmarker',
 			chunks: ['browser_popup'],
-		}),
-		new HtmlWebpackPlugin({
-			template: './src/ui_template.html',
-			minify: 'auto',
-			filename: 'page_popup.html',
-			title: 'Bookmark | Sentio - Video-Bookmarker',
-			chunks: ['page_popup'],
 		}),
 		new HtmlWebpackPlugin({
 			template: './src/ui_template.html',

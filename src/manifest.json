@@ -24,12 +24,6 @@
 		}
 	],
 
-	"page_action": {
-		"default_icon": "icons/icon-light.svg",
-		"default_title": "Bookmark | Sentio - Video-Bookmarker",
-		"default_popup": "page_popup.html"
-	},
-
 	"browser_action": {
 		"default_icon": "icons/icon-light.svg",
 		"default_title": "Overview | Sentio - Video-Bookmarker",
