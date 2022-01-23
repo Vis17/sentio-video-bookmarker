@@ -92,6 +92,7 @@ export default class ActivePage {
 	 * Reloads the vieos on the page through a message to the content-script
 	 */
 	async reloadVideos() {
+		this._videos = [];
 		try {
 			await this.sendMessage('page-reload-videos');
 		} catch (err) {
