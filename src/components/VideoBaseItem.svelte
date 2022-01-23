@@ -8,6 +8,7 @@
 	export let hasControls = false;
 	export let showBaseUrl = false;
 	export let showScr = false;
+	export let bookmarked = false;
 </script>
 
 <div
@@ -16,7 +17,9 @@
 	on:click={() => dispatch('click')}
 >
 	<div class="c-data">
-		<h2 class="text-overflow">{video.title ?? 'Just a video.'}</h2>
+		<h2 class="text-overflow" class:bookmarked>
+			{video.title ?? 'Just a video.'}
+		</h2>
 		<div class="c-infos">
 			{#if showBaseUrl}
 				<span
@@ -100,6 +103,10 @@
 		.c-data {
 			width: 10rem;
 			flex-grow: 1;
+
+			.bookmarked::before {
+				content: '⭐ ';
+			}
 
 			.c-infos {
 				display: flex;
