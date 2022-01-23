@@ -43,12 +43,6 @@ const optionConfigs = {
 		default: false,
 	},
 
-	'page-action-show': <OptionConfigInterfaceBoolean>{
-		title: 'Show the "Page - Action"',
-		description:
-			'This will show an icon in the address-bar in which the videos to bookmark can be selected.',
-		default: true,
-	},
 	'page-auto-reload': <OptionConfigInterfaceBoolean>{
 		title: 'Automatically load the videos on the page',
 		description:
