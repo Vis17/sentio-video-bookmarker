@@ -47,10 +47,10 @@ export default class VideoBookmarkManager {
 	async delete(src: string) {
 		const videoBookmark = this._data.get?.(src);
 		if (
+			videoBookmark?.browserBookmarkId &&
 			(await browser.permissions.contains({
 				permissions: ['bookmarks'],
-			})) &&
-			videoBookmark?.browserBookmarkId
+			}))
 		)
 			browser.bookmarks.remove(videoBookmark.browserBookmarkId).catch();
 
