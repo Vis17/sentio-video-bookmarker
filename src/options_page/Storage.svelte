@@ -124,7 +124,7 @@
 
 			<p>
 				<b>Note:</b> Importing corrupt data can lead to unexpected behavior
-				and clould lead to a loss of all saved data!
+				and to a loss of all saved data!
 			</p>
 
 			<form on:submit|preventDefault={importData}>
