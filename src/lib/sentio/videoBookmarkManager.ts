@@ -81,7 +81,12 @@ export default class VideoBookmarkManager {
 	 * @returns Whether or not the VideoBookmark was present && updated.
 	 */
 	async update(videoBookmark: VideoBookmark): Promise<boolean> {
-		if (!this._data.has(videoBookmark.src)) return false;
+		if (
+			!this._data.has(videoBookmark.src) ||
+			this._data.get(videoBookmark.src)?.duration !==
+				videoBookmark.duration
+		)
+			return false;
 
 		if (
 			!videoBookmark.browserBookmarkId &&
