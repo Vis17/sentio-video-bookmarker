@@ -44,8 +44,12 @@ export default class PageManager {
 				this.onVideoTimeupdate(video);
 			});
 
-			video.addEventListener('durationchange', () => {
-				this.setGuessedSrc([video], videoBookmarks);
+			video.addEventListener('durationchange', async () => {
+				const videoBookmarks = (await this.sendVideos(videos)) ?? [];
+
+				// update this video
+				await this.setGuessedSrc([video], videoBookmarks);
+				this.setVideoTimes([video], videoBookmarks);
 			});
 
 			unknownVideos.push(video);
