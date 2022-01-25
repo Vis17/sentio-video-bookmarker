@@ -42,12 +42,18 @@
 
 	<div class="c-videos">
 		{#if list.type === 'current-page-videos'}
-			{#each list.videos ?? [] as x}
-				<VideoDataItem
-					on:click={() => dispatch('reload-required')}
-					video={x}
-				/>
-			{/each}
+			<!-- 
+				recreate the list to update the bookmark-⭐
+				for the other (not clicked) guessed videos (if any)
+			-->
+			{#key list.videos}
+				{#each list.videos ?? [] as x}
+					<VideoDataItem
+						on:click={() => dispatch('reload-required')}
+						video={x}
+					/>
+				{/each}
+			{/key}
 		{:else if list.type === 'video-bookmarks'}
 			{#each list.videos ?? [] as x}
 				<VideoBookmarkItem
