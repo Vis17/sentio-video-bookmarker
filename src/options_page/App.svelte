@@ -15,6 +15,10 @@
 		'about' = 3,
 	}
 	let visibleTab: Tab = Tab['options'];
+	let sentioAccess = false;
+	(async () =>
+		(sentioAccess = !!(await browser.runtime.getBackgroundPage?.())
+			?.sentio))();
 	const version = browser.runtime.getManifest().version ?? '-';
 
 	function checkHash() {
@@ -29,6 +33,10 @@
 	afterUpdate(() => {
 		window.location.hash = `#${Tab[visibleTab] ?? ''}`;
 	});
+
+	function openOptionsPageFallback() {
+		browser.tabs.create({ url: 'options.html', active: true });
+	}
 </script>
 
 <svelte:window on:hashchange={checkHash} />
@@ -86,25 +94,48 @@
 	</aside>
 
 	<main>
-		{#if visibleTab === Tab['options']}
+		{#if !sentioAccess}
+			<div class="full-height" in:fade={{ duration: 300 }}>
+				<h1 class="error">⚠ ERROR</h1>
+				<p>
+					Error while accessing the Extension Data.
+					<br />
+					<br />
+					<a
+						href="#options"
+						on:click|preventDefault={openOptionsPageFallback}
+						title="I may be the solution to your problem"
+						>Try clicking here!</a
+					>
+					<br />
+					<br />
+					If the link above does not work and you have a container extension
+					installed, this is probably due to the option-tab is open in
+					a container. Try to click the "Manage" button in the topbar of
+					the extension´s popup and then navigate manually to the "Options".
+				</p>
+			</div>
+		{/if}
+
+		{#if visibleTab === Tab['options'] && sentioAccess}
 			<div class="full-height" in:fade={{ duration: 300 }}>
 				<Options />
 			</div>
 		{/if}
 
-		{#if visibleTab === Tab['manage']}
+		{#if visibleTab === Tab['manage'] && sentioAccess}
 			<div class="full-height" in:fade={{ duration: 300 }}>
 				<Manage />
 			</div>
 		{/if}
 
-		{#if visibleTab === Tab['storage']}
+		{#if visibleTab === Tab['storage'] && sentioAccess}
 			<div class="full-height" in:fade={{ duration: 300 }}>
 				<Storage />
 			</div>
 		{/if}
 
-		{#if visibleTab === Tab['about']}
+		{#if visibleTab === Tab['about'] && sentioAccess}
 			<div class="full-height" in:fade={{ duration: 300 }}>
 				<About />
 			</div>
@@ -179,6 +210,10 @@
 		padding: 1rem;
 
 		overflow: auto;
+
+		.error {
+			color: lighten(a.$red, 15);
+		}
 
 		.full-height {
 			height: 100%;
