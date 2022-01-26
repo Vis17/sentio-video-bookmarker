@@ -1,5 +1,24 @@
 # Changelog | Sentio - Video-Bookmarker
 
+## `1.0.0-beta.6` (01/2022)
+
+### What´s new?
+
+- Options: Finally there is an error message if the access to the background page is not possible. (This can be due to the `options_page` is opened in a container)
+
+### Fixes
+
+- `durationchange`-events are now handled properly (so it works now 😉 (hopefully))
+- `video.currentSrc` is read instead of `video.src`, which enables support for
+
+  ```html
+  <video>
+    <source src="x" />
+  </video>
+  ```
+
+[[**Full Changelog**](https://github.com/Vis17/sentio-video-bookmarker/compare/v1.0.0-beta.5...v1.0.0-beta.6)]
+
 ## `1.0.0-beta.5` (01/2022)
 
 ### What´s new?
