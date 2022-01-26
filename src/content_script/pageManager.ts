@@ -80,7 +80,7 @@ export default class PageManager {
 				baseUrl: window.location.toString(),
 				src:
 					videoOrVideos.getAttribute(SENTIO_ATTRIBUTES.GUESS) ||
-					videoOrVideos.src,
+					videoOrVideos.currentSrc,
 			};
 
 		const videoData: VideoData[] = [];
