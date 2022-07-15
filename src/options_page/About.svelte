@@ -21,7 +21,7 @@
 			<h2>Open Source</h2>
 			<p>
 				This project can be found on <a
-					href="https://github.com/Vis17/sentio-video-bookmarker"
+					href="https://github.com/tametsi/sentio-video-bookmarker"
 					target="_blank">GitHub</a
 				>.
 			</p>

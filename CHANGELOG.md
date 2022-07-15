@@ -17,7 +17,7 @@
   </video>
   ```
 
-[[**Full Changelog**](https://github.com/Vis17/sentio-video-bookmarker/compare/v1.0.0-beta.5...v1.0.0-beta.6)]
+[[**Full Changelog**](https://github.com/tametsi/sentio-video-bookmarker/compare/v1.0.0-beta.5...v1.0.0-beta.6)]
 
 ## `1.0.0-beta.5` (01/2022)
 
@@ -32,7 +32,7 @@
 
 - everything now responds to the browser´s default font-size (bigger font-size means bigger popup, ...)
 
-[[**Full Changelog**](https://github.com/Vis17/sentio-video-bookmarker/compare/v1.0.0-beta.4...v1.0.0-beta.5)]
+[[**Full Changelog**](https://github.com/tametsi/sentio-video-bookmarker/compare/v1.0.0-beta.4...v1.0.0-beta.5)]
 
 ## `1.0.0-beta.4` (01/2022)
 

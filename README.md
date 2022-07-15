@@ -68,4 +68,4 @@ For a complete production build check [**this**](#build-the-extension) out.
 
 ## License
 
-MIT ([see here](https://github.com/Vis17/sentio-video-bookmarker/blob/main/LICENSE))
+[MIT](https://github.com/tametsi/sentio-video-bookmarker/blob/main/LICENSE)

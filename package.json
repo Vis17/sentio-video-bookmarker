@@ -14,7 +14,7 @@
 		"build:firefox": "web-ext build -s ./dist -a ./web-ext-artifacts",
 		"sign:firefox": "node firefox_sign.js"
 	},
-	"author": "Vis17",
+	"author": "tametsi",
 	"license": "MIT",
 	"devDependencies": {
 		"@types/firefox-webext-browser": "^94.0.1",
