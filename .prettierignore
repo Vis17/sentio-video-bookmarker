@@ -1,0 +1,13 @@
+/node_modules
+/coverage
+/dist
+/test-page
+
+*todo*
+/todo
+
+web-ext-artifacts
+firefox_api_creds*
+
+.github
+src/ui_template.html
