@@ -5,6 +5,7 @@ export interface VideoData {
 	baseUrl: string;
 	src: string;
 	browserBookmarkId?: string;
+	lastSeen?: number;
 }
 export default class VideoBookmark {
 	static isValid(d: VideoBookmark): boolean;
@@ -33,6 +34,8 @@ export default class VideoBookmark {
 		// should be precise enough ;)
 		this._data.duration = Math.round(this._data.duration);
 		this._data.timestamp = Math.round(this._data.timestamp);
+
+		this._data.lastSeen = this._data.lastSeen ?? Date.now();
 	}
 
 	get title() {
@@ -56,6 +59,9 @@ export default class VideoBookmark {
 	set browserBookmarkId(x) {
 		this._data.browserBookmarkId = x;
 	}
+	get lastSeen() {
+		return this._data.lastSeen;
+	}
 
 	export(): VideoData {
 		return {
@@ -65,6 +71,7 @@ export default class VideoBookmark {
 			timestamp: this.timestamp,
 			duration: this.duration,
 			browserBookmarkId: this.browserBookmarkId,
+			lastSeen: this.lastSeen,
 		};
 	}
 }

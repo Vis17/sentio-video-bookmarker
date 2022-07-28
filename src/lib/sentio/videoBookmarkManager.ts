@@ -141,18 +141,20 @@ export default class VideoBookmarkManager {
 	query(q: Partial<VideoData>): VideoBookmark[] {
 		const qEntries = Object.entries(q);
 
-		return [...this._data.values()].filter(vidBookmark => {
-			let failed = false;
-			qEntries.forEach(entry => {
-				if (
-					vidBookmark.export()[entry[0] as keyof VideoData] !==
-					entry[1]
-				) {
-					failed = true;
-				}
-			});
-			return !failed;
-		});
+		return [...this._data.values()]
+			.filter(vidBookmark => {
+				let failed = false;
+				qEntries.forEach(entry => {
+					if (
+						vidBookmark.export()[entry[0] as keyof VideoData] !==
+						entry[1]
+					) {
+						failed = true;
+					}
+				});
+				return !failed;
+			})
+			.sort((a, b) => (b.lastSeen ?? 0) - (a.lastSeen ?? 0));
 	}
 
 	/** Determines whether the provided data is detected as a video-bookmark */

@@ -18,6 +18,7 @@ VideoBookmarkManager.prototype.save = () => {
 };
 
 describe('VideoBookmarkManager', () => {
+	jest.useFakeTimers({ now: 0 });
 	let m: VideoBookmarkManager;
 
 	beforeEach(() => {
@@ -33,6 +34,7 @@ describe('VideoBookmarkManager', () => {
 				baseUrl: 'base-url',
 				src: 'src-1',
 				duration: 10,
+				lastSeen: 0,
 			},
 			{
 				timestamp: 2,
@@ -40,6 +42,7 @@ describe('VideoBookmarkManager', () => {
 				src: 'src-2',
 				duration: 20,
 				title: 'huh, a title?',
+				lastSeen: 0,
 			},
 		];
 	}
@@ -78,6 +81,15 @@ describe('VideoBookmarkManager', () => {
 			new VideoBookmark(vid2),
 		]);
 		expect(m.query({ title: undefined })).toEqual([
+			new VideoBookmark(vid1),
+		]);
+
+		// TEST output sorting based on .lastSeen
+		vid2.lastSeen = 1;
+		m['_data'].set(vid2.src, new VideoBookmark(vid2));
+
+		expect(m.query({})).toEqual([
+			new VideoBookmark(vid2),
 			new VideoBookmark(vid1),
 		]);
 	});
@@ -126,7 +138,10 @@ describe('VideoBookmarkManager', () => {
 			timestamp: 2,
 		};
 		m.import([vid], false);
-		expect(m.export()).toEqual([...arrayOfVideoData, vid]);
+		expect(m.export()).toEqual([
+			...arrayOfVideoData,
+			{ ...vid, lastSeen: 0 },
+		]);
 
 		// TEST with VideoBookmark[]
 		const a: VideoBookmark[] = arrayOfVideoData.map(
@@ -137,6 +152,9 @@ describe('VideoBookmarkManager', () => {
 
 		// TEST without clearing with VideoBookmark[]
 		m.import([new VideoBookmark(vid)], false);
-		expect(m.export()).toEqual([...arrayOfVideoData, vid]);
+		expect(m.export()).toEqual([
+			...arrayOfVideoData,
+			{ ...vid, lastSeen: 0 },
+		]);
 	});
 });
