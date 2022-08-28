@@ -206,6 +206,25 @@
 						/>
 					</div>
 				</FormItem>
+				<FormItem name="lastSeen">
+					<svelte:fragment slot="title">Last seen</svelte:fragment>
+					<svelte:fragment slot="description"
+						>The timestamp at which the video was last seen. (Time
+						in milliseconds since 1 January 1970 UTC)</svelte:fragment
+					>
+					<div slot="input">
+						<span class="time-formatted">
+							{new Date(editVideo.lastSeen ?? 0).toLocaleString()}
+						</span>
+						<input
+							type="number"
+							name="duration"
+							id="duration"
+							disabled={!editReadOnlyProperties}
+							bind:value={editVideo.lastSeen}
+						/>
+					</div>
+				</FormItem>
 
 				<div>
 					<button type="submit">Save</button>
